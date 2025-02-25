@@ -6,6 +6,6 @@ public sealed record Product
     public string ProductName { get; init; } = default!;
     public decimal Price { get; init; }
     public DateOnly DateAdded { get; init; }
-    public int DiscountAmountPercent { get; set; }
+    public int DiscountAmountPercent { get; init; }
     public byte[]? Image { get; init; }
 }
