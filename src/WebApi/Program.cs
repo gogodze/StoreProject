@@ -13,13 +13,14 @@ DotEnv.Fluent()
     .Load();
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
         .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")} "));
+
 builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
     new OpenApiInfo { Title = "Store API", Version = "v1" }));
 
@@ -36,18 +37,16 @@ var app = builder.Build();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseExceptionHandler("/Home/Error");
 app.UseHsts();
 app.MapControllers();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.RoutePrefix = "swagger"; 
+        c.RoutePrefix = "swagger";
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1");
     });
 }
