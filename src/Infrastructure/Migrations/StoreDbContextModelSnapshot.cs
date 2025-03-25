@@ -17,16 +17,31 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("category");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime>("DateOrderFinished")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateFinished")
+                    b.Property<DateTime>("DateOrdered")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -45,17 +60,17 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("DateAdded")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DiscountAmountPercent")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("BLOB");
-
                     b.Property<int?>("OrderId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("PreviewImage")
+                        .HasColumnType("BLOB");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
@@ -64,7 +79,12 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("OrderId");
 
@@ -89,15 +109,14 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("BLOB");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RegisterDate")
-                        .IsRequired()
+                    b.Property<byte[]>("ProfilePicture")
+                        .HasColumnType("BLOB");
+
+                    b.Property<DateTime>("RegisterDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
@@ -129,9 +148,17 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.Order", null)
                         .WithMany("Product")
                         .HasForeignKey("OrderId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>

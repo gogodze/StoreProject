@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
-        .UseSqlite(Environment.GetEnvironmentVariable("DB__PATH")));
+        .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")} "));
 builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
     new OpenApiInfo { Title = "Store API", Version = "v1" }));
 
