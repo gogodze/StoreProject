@@ -14,8 +14,8 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
-        foreach (var Entity in modelBuilder.Model.GetEntityTypes())
-            Entity.SetTableName(Entity.GetTableName()?.ToSnakeCaseRename());
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
 
 
         base.OnModelCreating(modelBuilder);
