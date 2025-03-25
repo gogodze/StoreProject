@@ -16,4 +16,9 @@
         <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Client\obj\Client.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="Client\obj\project.assets.json" />
+    </ItemGroup>
+
 </Project>
