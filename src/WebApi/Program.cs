@@ -13,37 +13,50 @@ DotEnv.Fluent()
     .Load();
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
-        .UseSqlite(Environment.GetEnvironmentVariable("DB__PATH")));
+        .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")} "));
+
 builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
     new OpenApiInfo { Title = "Store API", Version = "v1" }));
+
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
+{
+    cors.AllowAnyMethod();
+    cors.AllowAnyOrigin();
+    cors.AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
 app.UseRouting();
-app.UseExceptionHandler("/Home/Error");
 app.UseHsts();
 app.MapControllers();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
 app.UseAuthorization();
-
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.RoutePrefix = string.Empty; // Serve the Swagger UI at the app's root
+        c.RoutePrefix = "swagger";
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1");
     });
 }
+
+#pragma warning disable ASP0014
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapFallbackToFile("index.html");
+});
 
 app.MapControllerRoute(
     "default",
