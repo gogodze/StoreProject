@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Domain.Aggregates;
+using Domain.Common;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ public sealed record PlaceOrderCommandHandler(IAppDbContext DbContext) : IReques
     {
         var user = await DbContext.Set<User>().Where(x => x.Id == request.User.Id).FirstOrDefaultAsync(ct);
         if (user is null) return false;
-        user.Orders = user.Orders?.Concat(request.Orders) ?? request.Orders;
+        user.Orders?.AddRange(request.Orders); ;
         DbContext.Set<User>().Add(user);
         await DbContext.SaveChangesAsync(ct);
         return true;

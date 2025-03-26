@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;

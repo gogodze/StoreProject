@@ -2,11 +2,6 @@
 
 public static class StringExt
 {
-    public static int GetLength(this string str)
-    {
-        return str.Length;
-    }
-
     public static string ToSnakeCaseRename(this string str)
     {
         var newStr = str[0].ToString().ToLower();
