@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain.Aggregates;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

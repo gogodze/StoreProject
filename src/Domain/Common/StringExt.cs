@@ -2,11 +2,6 @@
 
 public static class StringExt
 {
-    public static int GetLength(this string str)
-    {
-        return str.Length;
-    }
-
     public static string ToSnakeCaseRename(this string str)
     {
         var newStr = str[0].ToString().ToLower();
@@ -17,5 +12,11 @@ public static class StringExt
                 newStr += c;
 
         return newStr;
+    }
+
+    public static Ulid StringToUlid(this string str)
+    {
+        Ulid ulid = Ulid.Parse(str);
+        return ulid;
     }
 }
