@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
+using Infrastructure.Persistence.Configurations;
 using Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +16,11 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
             entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
+
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

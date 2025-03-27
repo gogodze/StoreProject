@@ -1,8 +1,6 @@
-using Domain.Abstractions;
-
 namespace Domain.Common;
 
-public static class ICollectionExt
+public static class CollectionExt
 {
     public static ICollection<T> AddRange<T>(this ICollection<T> source, IEnumerable<T> items)
     {
@@ -10,6 +8,7 @@ public static class ICollectionExt
         {
             source.Add(item);
         }
+
         return source;
     }
 }
