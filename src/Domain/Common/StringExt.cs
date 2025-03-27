@@ -13,4 +13,10 @@ public static class StringExt
 
         return newStr;
     }
+
+    public static Ulid StringToUlid(this string str)
+    {
+        Ulid ulid = Ulid.Parse(str);
+        return ulid;
+    }
 }
