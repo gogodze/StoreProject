@@ -10,7 +10,8 @@ public sealed record Order
     public Ulid UserId { get; init; }
     public User User { get; init; } = null!;
 
-    public required ICollection<Product> Products { get; init; }
+    public required ICollection<OrderProduct> OrderProducts { get; init; }
+
 
     public OrderDetails? Details { get; init; }
 }
