@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250327181602_AddAddressAndOrders")]
+    partial class AddAddressAndOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -83,26 +86,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("orders");
                 });
 
-            modelBuilder.Entity("Domain.Entities.OrderProduct", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OrderId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("order_product");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
@@ -113,6 +96,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("DiscountAmountPercent")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("TEXT");
 
                     b.Property<byte[]>("PreviewImage")
                         .HasColumnType("BLOB");
@@ -132,6 +118,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("products");
                 });
@@ -181,7 +169,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.HasOne("Domain.Aggregates.User", "User")
-                        .WithMany("OrderProducts")
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -213,25 +201,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.OrderProduct", b =>
+            modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.HasOne("Domain.Entities.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
+                    b.HasOne("Domain.Entities.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.User", b =>
                 {
-                    b.Navigation("OrderProducts");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.Navigation("OrderProducts");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1;
 
+[ApiController]
 public class ProductController(IMediator mediator) : ApiController
 {
-    [HttpGet("sale")]
-    public async Task<IActionResult> Sale()
+    [HttpGet("getSale")]
+    public async Task<IActionResult> GetSale()
     {
         var request = await mediator.Send(new GetProductsOnSale());
         return Ok(request);
     }
 
-    [HttpGet("/name/{name}")]
-    public async Task<IActionResult> Sale(string name)
+    [HttpGet("/products/{name}")]
+    public async Task<IActionResult> GetProductByName(string name)
     {
         var request = await mediator.Send(new GetProductsByName(name));
         return Ok(request);
