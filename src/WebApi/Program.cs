@@ -1,10 +1,11 @@
-using System.Reflection;
 using dotenv.net;
 using Infrastructure.Db;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 
+
+//get environment variables
 var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent;
 DotEnv.Fluent()
     .WithTrimValues()
@@ -15,14 +16,13 @@ DotEnv.Fluent()
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
         .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")} "));
 
-builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
-    new OpenApiInfo { Title = "Store API", Version = "v1" }));
 
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 {
@@ -38,19 +38,10 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseHsts();
-app.MapControllers();
 app.UseHttpsRedirection();
 app.UseAuthorization();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.RoutePrefix = "swagger";
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Store API V1");
-    });
-}
 
+// disable warning
 #pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
@@ -58,8 +49,16 @@ app.UseEndpoints(endpoints =>
     endpoints.MapFallbackToFile("index.html");
 });
 
+
 app.MapControllerRoute(
     "default",
-    "{controller=Product}/{action=Index}/{id?}");
+    "{controller=Auth}/{action=Login}");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+    app.UseDeveloperExceptionPage();
+}
 
 app.Run();
