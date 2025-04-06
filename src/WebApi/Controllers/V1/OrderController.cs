@@ -1,9 +1,11 @@
 ﻿using Application.Orders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1;
 
+[Authorize]
 [ApiController]
 public class OrderController(IMediator mediator) : ApiController
 {
