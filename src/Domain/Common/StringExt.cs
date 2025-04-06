@@ -19,4 +19,10 @@ public static class StringExt
         Ulid ulid = Ulid.Parse(str);
         return ulid;
     }
+
+    public static string GetFromEnvRequired(this string str)
+    {
+        return Environment.GetEnvironmentVariable(str) ??
+               throw new InvalidOperationException($"variable not found {str}");
+    }
 }

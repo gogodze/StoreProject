@@ -1,6 +1,8 @@
 using dotenv.net;
 using Infrastructure.Db;
+using Infrastructure.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -21,9 +23,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
-        .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")} "));
-
-
+        .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")}"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
+    x.TokenValidationParameters = JwtGenerator.TokenValidationParameters);
+builder.Services.AddAuthorization();
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 {
     cors.AllowAnyMethod();
@@ -39,6 +42,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseHsts();
 app.UseHttpsRedirection();
+app.UseCors();
+app.UseAuthorization();
 app.UseAuthorization();
 
 // disable warning
