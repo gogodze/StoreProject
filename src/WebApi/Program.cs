@@ -57,7 +57,7 @@ app.UseEndpoints(endpoints =>
 
 app.MapControllerRoute(
     "default",
-    "{controller=Auth}/{action=Login}");
+    "{controller=Auth}/{action=login}");
 
 if (app.Environment.IsDevelopment())
 {
