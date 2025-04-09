@@ -18,7 +18,7 @@ public class AuthController(IMediator mediator) : ApiController
         var user = await mediator.Send(new GetUserByEmail(login.Email));
         if (user == null || !Verify(login.Password, user.HashedPassword))
             return Unauthorized("invalid credentials");
-        var token = JwtGenerator.GenerateToken(user, TimeSpan.FromMinutes(5));
+        var token = JwtGenerator.GenerateToken(user, TimeSpan.FromHours(24));
         return Ok(token);
     }
 

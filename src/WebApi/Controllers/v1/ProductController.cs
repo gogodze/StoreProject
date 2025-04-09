@@ -1,12 +1,15 @@
 using Application.Products.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1;
 
+[Authorize]
 [ApiController]
 public class ProductController(IMediator mediator) : ApiController
 {
+    [AllowAnonymous]
     [HttpGet("getSale")]
     public async Task<IActionResult> GetSale()
     {

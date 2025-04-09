@@ -1,7 +1,7 @@
+using Application.Interfaces;
 using dotenv.net;
 using Infrastructure.Db;
 using Infrastructure.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -20,10 +20,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<IMediator>(o => o.GetRequiredService<IMediator>());
+
 builder.Services
     .AddDbContext<StoreDbContext>(o => o
         .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")}"));
+builder.Services.AddScoped<IAppDbContext, StoreDbContext>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
     x.TokenValidationParameters = JwtGenerator.TokenValidationParameters);
 builder.Services.AddAuthorization();
@@ -36,15 +38,20 @@ builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-app.UseRouting();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+}
+
 app.UseHsts();
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
-app.UseAuthorization();
+app.MapControllers();
 
 // disable warning
 #pragma warning disable ASP0014
@@ -53,17 +60,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     endpoints.MapFallbackToFile("index.html");
 });
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
 
+// app.MapControllerRoute(
+//     "default",
+//     "{controller=Auth}/{action=login}");
 
-app.MapControllerRoute(
-    "default",
-    "{controller=Auth}/{action=login}");
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-    app.UseDeveloperExceptionPage();
-}
 
 app.Run();

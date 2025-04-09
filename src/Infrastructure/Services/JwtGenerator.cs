@@ -52,12 +52,12 @@ public static class JwtGenerator
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidAlgorithms = [SecurityAlgorithms.Sha256],
+        ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
     };
 
     private static readonly JwtSecurityTokenHandler Handler = new();
     private static readonly SymmetricSecurityKey SecurityKey = new(Encoding.UTF8.GetBytes(Key));
-    private static SigningCredentials SigningCredentials => new(SecurityKey, SecurityAlgorithms.Sha256);
+    private static SigningCredentials SigningCredentials => new(SecurityKey, SecurityAlgorithms.HmacSha256);
 
     public static string GenerateToken(User user, TimeSpan expiration)
     {
