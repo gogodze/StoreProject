@@ -5,9 +5,18 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "https://localhost:7052;http://localhost:5129",
+      "applicationUrl": "https://localhost:7052",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "watch": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "watch run https --launch-profile https --non-interactive",
+      "environmentVariables": {
+        "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "1"
       }
     }
   }
