@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+﻿@import "tailwindcss";
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
@@ -10,6 +7,9 @@
     outline: 1px solid red;
 }
 
+body {
+    background: black;
+}
 .validation-message {
     color: red;
 }

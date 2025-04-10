@@ -1,21 +1,14 @@
 namespace Domain.ValueObjects;
 
-
 public enum ProductCategory
 {
-    ElectronicsAndGadgets,
-    HomeAndLiving,
-    FashionAndApparel,
-    HealthAndBeauty,
+    Electronics,
+    Home,
+    Fashion,
+    Health,
     Automotive,
-    SportsAndOutdoors,
-    ToysAndGames,
-    BooksAndStationery,
-    FoodAndBeverages,
-    BabyAndKids,
-    PetSupplies,
-    OfficeAndSchoolSupplies,
-    HomeImprovementAndTools,
-    MusicAndInstruments,
-    IndustrialAndScientific
+    Sports,
+    Toys,
+    Books,
+    Pets,
 }

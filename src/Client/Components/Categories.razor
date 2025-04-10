@@ -1,0 +1,41 @@
+﻿@using Domain.ValueObjects
+@inject HttpClient client
+
+<div class="container flex bg-black border border-gray-700 rounded-md mx-auto">
+    @foreach (var category in _categories)
+    {
+        <div id="slider" class="flex">
+            <Card Text="@category.Key" Image=@category.Value></Card>
+        </div>
+    }
+
+
+</div>
+
+@code {
+    private Dictionary<string, string> _categories = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        foreach (var category in Enum.GetNames(typeof(ProductCategory)))
+        {
+            var imageBytes = await GetImageByName(category);
+            var base64Image = Convert.ToBase64String(imageBytes);
+            _categories[category] = $"data:image/jpeg;base64,{base64Image}";
+        }
+    }
+
+    private async Task<byte[]> GetImageByName(string name)
+    {
+        var imageUrl = $"Images/Categories/{name}.jpg";
+        try
+        {
+            var image = await client.GetByteArrayAsync(imageUrl);
+            return image;
+        }
+        catch (HttpRequestException)
+        {
+            return [];
+        }
+    }
+}

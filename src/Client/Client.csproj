@@ -22,4 +22,12 @@
       <_ContentIncludedByDefault Remove="Client\obj\project.assets.json" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\Images\"/>
+    </ItemGroup>
+
 </Project>

@@ -23,4 +23,10 @@ public class ProductController(IMediator mediator) : ApiController
         var request = await mediator.Send(new GetProductsByName(name));
         return Ok(request);
     }
+
+    // [HttpGet("/products/categories")]
+    // public async Task<IActionResult> GetAllCategories()
+    // {
+    //     return Ok(ProductCategory);
+    // }
 }
