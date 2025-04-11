@@ -11,8 +11,8 @@ namespace Infrastructure.Services;
 
 public static class JwtGenerator
 {
-    public static readonly string ClaimsIssuer = "JWT__ISSUER".GetFromEnvRequired();
-    public static readonly string ClaimsAudience = "JWT__AUDIENCE".GetFromEnvRequired();
+    private static readonly string ClaimsIssuer = "JWT__ISSUER".GetFromEnvRequired();
+    private static readonly string ClaimsAudience = "JWT__AUDIENCE".GetFromEnvRequired();
     private static readonly string Key = "JWT__KEY".GetFromEnvRequired();
 
     public static readonly JwtBearerEvents Events = new()

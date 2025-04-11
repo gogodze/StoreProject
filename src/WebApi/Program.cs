@@ -63,9 +63,4 @@ app.UseEndpoints(endpoints =>
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-// app.MapControllerRoute(
-//     "default",
-//     "{controller=Auth}/{action=login}");
-
-
 app.Run();

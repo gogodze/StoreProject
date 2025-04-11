@@ -9,10 +9,22 @@
 </div>
 
 @code {
+    protected override Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrEmpty(Text) || string.IsNullOrEmpty(Image))
+        {
+            throw new NullReferenceException("Text or Image cannot be null or empty.");
+        }
+
+        return Task.CompletedTask;
+    }
+
     [Parameter]
+    [EditorRequired]
     public string Text { get; set; }
 
     [Parameter]
+    [EditorRequired]
     public string Image { get; set; }
 
     [Parameter]
