@@ -11,7 +11,7 @@
 @code {
     protected override Task OnParametersSetAsync()
     {
-        if (string.IsNullOrEmpty(Text) || string.IsNullOrEmpty(Image))
+        if (string.IsNullOrWhiteSpace(Text) || string.IsNullOrWhiteSpace(Image))
         {
             throw new NullReferenceException("Text or Image cannot be null or empty.");
         }
