@@ -12,7 +12,7 @@ public class OrderController(IMediator mediator) : ApiController
     [HttpGet("getMyOrders/{userId}")]
     public async Task<IActionResult> GetUsersOrders(Ulid userId)
     {
-        await mediator.Send(new GetUserOrdersCommand
+        await mediator.Send(new GetUserOrdersQuery
         {
             UserId = userId,
         });

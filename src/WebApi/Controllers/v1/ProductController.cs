@@ -13,14 +13,14 @@ public class ProductController(IMediator mediator) : ApiController
     [HttpGet("getSale")]
     public async Task<IActionResult> GetSale()
     {
-        var request = await mediator.Send(new GetProductsOnSale());
+        var request = await mediator.Send(new GetProductsOnSaleQuery());
         return Ok(request);
     }
 
     [HttpGet("/products/{name}")]
     public async Task<IActionResult> GetProductByName(string name)
     {
-        var request = await mediator.Send(new GetProductsByName(name));
+        var request = await mediator.Send(new GetProductsByNameQuery(name));
         return Ok(request);
     }
 }
