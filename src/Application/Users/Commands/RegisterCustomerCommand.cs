@@ -1,9 +1,9 @@
 ﻿using Application.Interfaces;
 using Destructurama.Attributed;
 using Domain.Aggregates;
-using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
+using static BCrypt.Net.BCrypt;
 
 namespace Application.Users.Commands;
 
@@ -19,16 +19,10 @@ public sealed record RegisterCustomerCommand : IRequest<User>
     public required string UserName { get; init; }
 
     [LogMasked]
-    public required string HashedPassword { get; init; }
+    public required string Password { get; init; }
 
     [LogMasked]
     public required string Email { get; init; }
-
-    [LogMasked]
-    public required Address? Address { get; init; }
-
-    [LogMasked]
-    public byte[]? ProfilePicture { get; init; } = null;
 }
 
 public sealed record RegisterCustomerCommandHandler(IAppDbContext DbContext) : IRequestHandler<RegisterCustomerCommand, User>
@@ -41,13 +35,10 @@ public sealed record RegisterCustomerCommandHandler(IAppDbContext DbContext) : I
             Name = request.Name,
             Surname = request.Surname,
             UserName = request.UserName,
-            HashedPassword = request.HashedPassword,
+            HashedPassword = EnhancedHashPassword(request.Password),
             Role = Role.Customer,
             RegisterDate = DateTime.Now,
             Email = request.Email,
-            Address = request.Address,
-            Orders = null,
-            ProfilePicture = request.ProfilePicture,
         };
         await DbContext.Set<User>().AddAsync(user, ct);
         await DbContext.SaveChangesAsync(ct);

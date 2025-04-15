@@ -17,4 +17,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Attributes\" />
+    </ItemGroup>
+
 </Project>
