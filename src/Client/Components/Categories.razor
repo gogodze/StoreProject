@@ -1,10 +1,10 @@
 ﻿@using Domain.ValueObjects
 @inject HttpClient client
 
-<div class="container flex bg-black border border-gray-700 rounded-md mx-auto">
+<div class="container flex bg-background dark:bg-background text-primary-foreground dark:text-primary-foreground border border-border dark:border-border rounded-md mx-auto">
     @foreach (var category in _categories)
     {
-        <div id="slider" class="flex">
+        <div id="slider text-muted-foreground" class="flex">
             <Card Text="@category.Key" Image=@category.Value></Card>
         </div>
     }

@@ -1,11 +1,11 @@
-﻿<div class="max-w-sm rounded overflow-hidden shadow-lg">
+﻿<div class="max-w-sm rounded overflow-hidden">
     <div class="px-6 py-4">
-        <div class="font-bold text-xl text-white text-center mb-2">@Text</div>
-        <p class="text-gray-700 text-base @(Description == null ? "hidden" : "")">
+        <div class="font-bold text-xl text-muted-foreground text-center mb-2">@Text</div>
+        <p class="text-muted-foreground text-base @(Description == null ? "hidden" : "")">
             @Description
         </p>
     </div>
-    <img class="object-cover max-h-60" src="@Image" alt="Sunset in the mountains">
+    <img class="object-cover max-h-60" src="@Image" alt="Image">
 </div>
 
 @code {

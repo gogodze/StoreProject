@@ -1,25 +1,44 @@
-﻿<div class="container flex justify-between items-center mt-4 border border-gray-700 mx-auto max-w-[1200px] bg-black rounded-lg">
+﻿@inject IJSRuntime Js
+<div
+    class="container flex p-3 justify-between items-center mt-4 mx-auto max-w-[1200px] rounded-lg bg-background dark:bg-background text-foreground dark:text-primary-foreground border border-border dark:border-border">
 
-    <button id="left" class="rounded-md m-2 border border-gray-700 hover:bg-gray-800 ">
-        <Blazicon class="m-3" Svg='GoogleMaterialRoundIcon.Dehaze.WithColor("white")'/>
+    <button id="left"
+            class="rounded-md p-3 border border-border transition-colors duration-200 hover:text-primary text-muted-foreground hover:bg-primary-foreground cursor-pointer">
+        <Blazicon class="" Svg='GoogleMaterialRoundIcon.Dehaze'/>
     </button>
 
     <div id="right" class="flex space-x-4 mr-3">
-        <button class="border border-gray-700 rounded-md p-3 hover:bg-gray-800">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Search.WithColor("white")'/>
+        <button
+            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer">
+            <Blazicon Svg='GoogleMaterialRoundIcon.Search'/>
         </button>
-        <button class="border border-gray-700 rounded-md p-3 hover:bg-gray-800">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Notifications.WithColor("white")'/>
+        <button
+            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
+            <Blazicon Svg='GoogleMaterialRoundIcon.Notifications'/>
         </button>
-        <button class="border border-gray-700 rounded-md p-3 hover:bg-gray-800">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Person.WithColor("white")'/>
+        <button
+            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
+            <Blazicon Svg='GoogleMaterialRoundIcon.Person'/>
         </button>
-        <button class="border border-gray-700 rounded-md p-3 hover:bg-gray-800">
-            <Blazicon Svg='GoogleMaterialRoundIcon.DarkMode.WithColor("white")'/>
+        <button
+            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
+            @onclick="async () => await ToggleDarkMode()">
+            <Blazicon Svg='IsDarkMode ? GoogleMaterialRoundIcon.LightMode : GoogleMaterialRoundIcon.DarkMode'/>
         </button>
     </div>
 </div>
 
 
 @code {
+    private bool IsDarkMode { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsDarkMode = await Js.InvokeAsync<bool>("checkTheme");
+    }
+
+    private async Task ToggleDarkMode()
+    {
+        IsDarkMode = await Js.InvokeAsync<bool>("toggleDarkMode");
+    }
 }
