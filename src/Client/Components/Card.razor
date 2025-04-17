@@ -1,11 +1,13 @@
-﻿<div class="max-w-sm rounded overflow-hidden">
-    <div class="px-6 py-4">
-        <div class="font-bold text-xl text-muted-foreground text-center mb-2">@Text</div>
-        <p class="text-muted-foreground text-base @(Description == null ? "hidden" : "")">
+﻿<div class="w-full">
+    <div class="relative rounded-xl bg-background z-0 pt-4 text-muted-foreground hover:z-50 hover:scale-125 hover:shadow-xl hover:text-primary hover:cursor-pointer hover:transition-transform hover:duration-300 hover:ease-in-out">
+        <div class="font-bold text-xl text-center mb-5">@Text</div>
+        <p class="text-base @(Description == null ? "hidden" : "")">
             @Description
         </p>
+        <img class="" src="@Image" alt="Image">
     </div>
-    <img class="object-cover max-h-60" src="@Image" alt="Image">
+
+
 </div>
 
 @code {

@@ -1,19 +1,18 @@
 ﻿@using Domain.ValueObjects
-@inject HttpClient client
+@inject HttpClient Client
 
-<div class="container flex bg-background dark:bg-background text-primary-foreground dark:text-primary-foreground border border-border dark:border-border rounded-md mx-auto">
+<div
+    class="container flex justify-between bg-background dark:bg-background text-primary-foreground dark:text-primary-foreground border border-border dark:border-border rounded-md">
     @foreach (var category in _categories)
     {
-        <div id="slider text-muted-foreground" class="flex">
-            <Card Text="@category.Key" Image=@category.Value></Card>
-        </div>
+        <Card Text="@category.Key" Image=@category.Value></Card>
     }
 
 
 </div>
 
 @code {
-    private Dictionary<string, string> _categories = new();
+    private readonly Dictionary<string, string> _categories = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,7 +29,7 @@
         var imageUrl = $"Images/Categories/{name}.jpg";
         try
         {
-            var image = await client.GetByteArrayAsync(imageUrl);
+            var image = await Client.GetByteArrayAsync(imageUrl);
             return image;
         }
         catch (HttpRequestException)
