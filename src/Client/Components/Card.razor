@@ -1,10 +1,11 @@
 ﻿<div class="w-full">
-    <div class="relative rounded-xl bg-background z-0 pt-4 text-muted-foreground hover:z-50 hover:scale-125 hover:shadow-xl hover:text-primary hover:cursor-pointer hover:transition-transform hover:duration-300 hover:ease-in-out">
+    <div
+        class="relative rounded-xl bg-background z-0 pt-4 text-muted-foreground hover:z-50 hover:scale-125 hover:shadow-xl hover:text-primary hover:cursor-pointer hover:transition-transform hover:duration-300 hover:ease-in-out">
         <div class="font-bold text-xl text-center mb-5">@Text</div>
         <p class="text-base @(Description == null ? "hidden" : "")">
             @Description
         </p>
-        <img class="" src="@Image" alt="Image">
+        <img class="@(Image == null ? "hidden" : "")" src="@Image" alt="Image">
     </div>
 
 
@@ -13,9 +14,9 @@
 @code {
     protected override Task OnParametersSetAsync()
     {
-        if (string.IsNullOrWhiteSpace(Text) || string.IsNullOrWhiteSpace(Image))
+        if (string.IsNullOrWhiteSpace(Text))
         {
-            throw new NullReferenceException("Text or Image cannot be null or empty.");
+            throw new NullReferenceException("Text cannot be null or empty.");
         }
 
         return Task.CompletedTask;

@@ -61,17 +61,21 @@ public static class JwtGenerator
 
     public static string GenerateToken(User user, TimeSpan expiration)
     {
+        var exp = DateTime.UtcNow.Add(expiration);
         var claims = new List<Claim>
         {
             new("sub", user.Id.ToString()),
-            new("preferred_username", user.Name),
+            new("uname", user.Name),
             new("email", user.Email),
+            new("exp", ((DateTimeOffset)exp).ToUnixTimeSeconds().ToString()),
+            new("iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
+
         };
         var token = new JwtSecurityToken(
             ClaimsIssuer,
             ClaimsAudience,
             claims,
-            expires: DateTime.Now.Add(expiration),
+            expires: exp,
             signingCredentials: SigningCredentials);
 
         return Handler.WriteToken(token);
