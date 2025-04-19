@@ -1,24 +1,28 @@
 ﻿@inject IJSRuntime Js
+@inject NavigationManager Nav
 <div
     class="fixed top-0 left-0 right-0 z-50 container flex p-3 justify-between items-center mt-4 mx-auto max-w-[1200px] rounded-lg bg-background dark:bg-background text-foreground dark:text-primary-foreground border border-border dark:border-border">
 
-    <button id="left"
+    <button @onclick="@(() => Nav.NavigateTo("/"))" id="left"
             class="rounded-md p-3 border border-border transition-colors duration-200 hover:text-primary text-muted-foreground hover:bg-primary-foreground cursor-pointer">
-        <Blazicon class="" Svg='GoogleMaterialRoundIcon.Dehaze'/>
+        <Blazicon Svg='GoogleMaterialRoundIcon.Home'/>
     </button>
 
+    <span
+        class="flex border border-border rounded-md w-full ml-10 mr-10 p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground">
+        <Blazicon Svg='GoogleMaterialRoundIcon.Search'/>
+        <input type="text" class="pl-2 w-full focus:outline-0" placeholder="Search"/>
+    </span>
+
     <div id="right" class="flex space-x-4 mr-3">
-        <button
-            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Search'/>
-        </button>
-        <button
-            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Notifications'/>
-        </button>
-        <button
-            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
+
+        <button @onclick="@(() => Nav.NavigateTo("/Login"))"
+                class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
             <Blazicon Svg='GoogleMaterialRoundIcon.Person'/>
+        </button>
+        <button
+            class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
+            <Blazicon Svg='GoogleMaterialRoundIcon.ShoppingCart'/>
         </button>
         <button
             class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
