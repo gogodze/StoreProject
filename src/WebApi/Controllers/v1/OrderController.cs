@@ -9,17 +9,17 @@ namespace WebApi.Controllers.v1;
 [ApiController]
 public class OrderController(IMediator mediator) : ApiController
 {
-    [HttpGet("getMyOrders/{userId}")]
+    [HttpGet("orders/{userId}")]
     public async Task<IActionResult> GetUsersOrders(Ulid userId)
     {
-        await mediator.Send(new GetUserOrdersQuery
+        var orders = await mediator.Send(new GetUserOrdersQuery
         {
             UserId = userId,
         });
-        return Ok();
+        return Ok(orders);
     }
 
-    [HttpPost("placeOrder")]
+    [HttpPost("order")]
     public async Task<IActionResult> PlaceOrder()
     {
         // await mediator.Send(new PlaceOrderCommand());

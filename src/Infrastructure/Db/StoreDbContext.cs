@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
+using Domain.ValueObjects;
 using Infrastructure.Persistence.Configurations;
 using Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
     protected override void ConfigureConventions(ModelConfigurationBuilder conventionsBuilder)
     {
         conventionsBuilder.Properties<Ulid>().HaveConversion<UlidToStringValueConverter>();
+        base.ConfigureConventions(conventionsBuilder);
+        conventionsBuilder.Properties<RefreshToken>().HaveConversion<RefreshTokenToStringValueConverter>();
         base.ConfigureConventions(conventionsBuilder);
     }
 }

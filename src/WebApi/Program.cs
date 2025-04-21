@@ -22,9 +22,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services
-    .AddDbContext<StoreDbContext>(o => o
+    .AddDbContext<IAppDbContext, StoreDbContext>(o => o
         .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")}"));
-builder.Services.AddScoped<IAppDbContext, StoreDbContext>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
     x.TokenValidationParameters = JwtGenerator.TokenValidationParameters);

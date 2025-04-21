@@ -1,4 +1,6 @@
-﻿namespace Domain.Common;
+﻿using Domain.ValueObjects;
+
+namespace Domain.Common;
 
 public static class StringExt
 {
@@ -18,6 +20,12 @@ public static class StringExt
     {
         Ulid ulid = Ulid.Parse(str);
         return ulid;
+    }
+
+    public static RefreshToken StringToRefreshToken(this string str)
+    {
+        var tokenParts = str.Split(":");
+        return new RefreshToken(tokenParts[0], DateTime.Parse(tokenParts[1]));
     }
 
     public static string GetFromEnvRequired(this string str)
