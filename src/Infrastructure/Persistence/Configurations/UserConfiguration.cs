@@ -11,8 +11,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.Email).IsUnique();
         builder.HasIndex(u => u.UserName).IsUnique();
         builder.Property(x => x.Role).IsRequired();
+        builder.ComplexProperty(x => x.Address).IsRequired();
         builder.Property(x => x.RefreshToken).IsRequired(false);
-        builder.OwnsOne(u => u.Address);
         builder.HasMany(u => u.Orders)
             .WithOne(o => o.User)
             .HasForeignKey(o => o.UserId)

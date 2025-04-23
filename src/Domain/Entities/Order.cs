@@ -12,6 +12,7 @@ public sealed record Order
 
     public required ICollection<OrderProduct> OrderProducts { get; init; }
 
-
-    public OrderDetails? Details { get; init; }
+    public decimal Total { get; init; }
+    public DateTime DateOrdered { get; init; }
+    public DateTime DateOrderFinished { get; init; }
 }

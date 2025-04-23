@@ -21,7 +21,7 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
             entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

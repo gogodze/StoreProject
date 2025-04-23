@@ -3,12 +3,9 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Interfaces;
-using Application.Users.Commands;
 using Domain.Aggregates;
 using Domain.Common;
 using Domain.ValueObjects;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

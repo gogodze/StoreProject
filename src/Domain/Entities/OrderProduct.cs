@@ -8,4 +8,6 @@ public sealed record OrderProduct
     public Order Order { get; init; } = null!;
 
     public Ulid ProductId { get; init; }
+
+    public Product Product { get; init; } = null!;
 }
