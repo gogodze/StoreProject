@@ -8,7 +8,6 @@ using Scalar.AspNetCore;
 
 
 //get environment variables
-var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent;
 DotEnv.Fluent()
     .WithTrimValues()
     .WithOverwriteExistingVars().WithProbeForEnv(6)
