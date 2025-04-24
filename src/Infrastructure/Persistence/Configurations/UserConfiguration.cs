@@ -8,8 +8,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasIndex(u => u.Email).IsUnique();
-        builder.HasIndex(u => u.UserName).IsUnique();
+        builder.Property(x => x.Email).HasMaxLength(20).IsRequired();
+        builder.Property(x => x.Name).HasMaxLength(10).IsRequired();
+        builder.Property(x => x.Surname).HasMaxLength(10).IsRequired();
+        builder.Property(x => x.UserName).HasMaxLength(15).IsRequired();
+        builder.Property(x => x.HashedPassword).HasMaxLength(50).IsRequired();
         builder.Property(x => x.Role).IsRequired();
         builder.ComplexProperty(x => x.Address).IsRequired();
         builder.Property(x => x.RefreshToken).IsRequired(false);

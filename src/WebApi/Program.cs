@@ -1,4 +1,4 @@
-using Application.Interfaces;
+using Application.Services;
 using dotenv.net;
 using Infrastructure.Db;
 using Infrastructure.Services;
@@ -25,6 +25,8 @@ builder.Services
     .AddDbContext<IAppDbContext, StoreDbContext>(o => o
         .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")}"));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
+
+builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
     x.TokenValidationParameters = JwtGenerator.TokenValidationParameters);
 builder.Services.AddAuthorization();

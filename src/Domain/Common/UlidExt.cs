@@ -4,7 +4,7 @@ public static class UlidExt
 {
     public static Ulid NewUlid(this Ulid ulid)
     {
-        return new Ulid();
+        return Ulid.NewUlid();
     }
 
     public static string UlidToString(this Ulid ulid)

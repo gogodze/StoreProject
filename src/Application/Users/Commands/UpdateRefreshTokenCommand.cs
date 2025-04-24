@@ -1,20 +1,15 @@
-﻿using Application.Interfaces;
-using Destructurama.Attributed;
+﻿using Application.Services;
 using Domain.Aggregates;
 using Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using static BCrypt.Net.BCrypt;
-
 
 namespace Application.Users.Commands;
 
 public sealed record UpdateRefreshTokenCommand : IRequest<bool>
 {
-    [LogMasked]
     public Ulid Userid { get; set; }
 
-    [LogMasked]
     public RefreshToken RefreshToken { get; set; } = null!;
 }
 

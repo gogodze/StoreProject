@@ -1,23 +1,25 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
+using Application.Services;
 using Domain.Aggregates;
 using Domain.Common;
-using Domain.ValueObjects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services;
 
-public static class JwtGenerator
+public class JwtGenerator : IJwtGenerator
 {
     private static readonly string ClaimsIssuer = "JWT__ISSUER".GetFromEnvRequired();
     private static readonly string ClaimsAudience = "JWT__AUDIENCE".GetFromEnvRequired();
     private static readonly string Key = "JWT__KEY".GetFromEnvRequired();
+    private readonly JwtSecurityTokenHandler _handler = new();
+    private readonly SymmetricSecurityKey _securityKey = new(Encoding.UTF8.GetBytes(Key));
+    private SigningCredentials SigningCredentials => new(_securityKey, SecurityAlgorithms.HmacSha256);
 
-    public static readonly JwtBearerEvents Events = new()
+    public readonly JwtBearerEvents Events = new()
     {
         OnChallenge = ctx =>
         {
@@ -57,31 +59,8 @@ public static class JwtGenerator
         ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
     };
 
-    private static readonly JwtSecurityTokenHandler Handler = new();
-    private static readonly SymmetricSecurityKey SecurityKey = new(Encoding.UTF8.GetBytes(Key));
-    private static SigningCredentials SigningCredentials => new(SecurityKey, SecurityAlgorithms.HmacSha256);
 
-    public static RefreshToken GenerateRefreshToken()
-    {
-        var randomNumber = new byte[32];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        var str = Convert.ToBase64String(randomNumber);
-        return new(str, DateTime.UtcNow.AddDays(7));
-    }
-
-    public static User ValidateRefreshToken(User user, RefreshToken refreshToken)
-    {
-        if (user.RefreshToken!.Token != refreshToken.Token || user.RefreshToken!.ExpireTime <= DateTime.UtcNow)
-        {
-            return null!;
-        }
-
-        return user;
-    }
-
-
-    public static string GenerateToken(User user)
+    public string GenerateToken(User user)
     {
         var exp = DateTime.UtcNow.AddMinutes(10);
         var claims = new List<Claim>
@@ -98,6 +77,6 @@ public static class JwtGenerator
             expires: exp,
             signingCredentials: SigningCredentials);
 
-        return Handler.WriteToken(token);
+        return _handler.WriteToken(token);
     }
 }

@@ -1,9 +1,7 @@
-﻿using Application.Interfaces;
-using Application.Products.Queries;
+﻿using Application.Services;
 using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Products.Commands;
 

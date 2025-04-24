@@ -1,4 +1,4 @@
-using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +15,3 @@ public sealed record GetProductsOnSalQueryHandler(IAppDbContext DbContext) : IRe
         return resp;
     }
 }
-
-
-

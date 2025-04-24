@@ -1,5 +1,4 @@
-using Application.Interfaces;
-using Destructurama.Attributed;
+using Application.Services;
 using Domain.Aggregates;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,6 @@ namespace Application.Users.Queries;
 
 public sealed record GetUserByIdQuery : IRequest<User?>
 {
-    [LogMasked]
     public required Ulid? Id { get; set; }
 }
 

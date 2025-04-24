@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <Folder Include="Attributes\" />
+        <Folder Include="Orders\Queries\"/>
     </ItemGroup>
 
 </Project>
