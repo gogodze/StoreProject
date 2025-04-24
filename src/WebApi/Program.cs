@@ -1,6 +1,6 @@
 using Application.Services;
 using dotenv.net;
-using Infrastructure.Db;
+using Infrastructure.Persistence.Db;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +11,7 @@ using Scalar.AspNetCore;
 var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent;
 DotEnv.Fluent()
     .WithTrimValues()
-    .WithEnvFiles($"{solutionDir}/.env")
-    .WithOverwriteExistingVars()
+    .WithOverwriteExistingVars().WithProbeForEnv(6)
     .Load();
 
 var builder = WebApplication.CreateBuilder(args);

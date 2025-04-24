@@ -7,7 +7,7 @@ using Infrastructure.Persistence.Configurations;
 using Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Db;
+namespace Infrastructure.Persistence.Db;
 
 public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options), IAppDbContext
 {
@@ -29,8 +29,6 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
     protected override void ConfigureConventions(ModelConfigurationBuilder conventionsBuilder)
     {
         conventionsBuilder.Properties<Ulid>().HaveConversion<UlidToStringValueConverter>();
-        base.ConfigureConventions(conventionsBuilder);
         conventionsBuilder.Properties<RefreshToken>().HaveConversion<RefreshTokenToStringValueConverter>();
-        base.ConfigureConventions(conventionsBuilder);
     }
 }
