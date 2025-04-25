@@ -19,7 +19,7 @@ public class JwtGenerator : IJwtGenerator
     private readonly SymmetricSecurityKey _securityKey = new(Encoding.UTF8.GetBytes(Key));
     private SigningCredentials SigningCredentials => new(_securityKey, SecurityAlgorithms.HmacSha256);
 
-    public readonly JwtBearerEvents Events = new()
+    public static readonly JwtBearerEvents Events = new()
     {
         OnChallenge = ctx =>
         {

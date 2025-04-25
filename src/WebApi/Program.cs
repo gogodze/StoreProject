@@ -1,4 +1,5 @@
 using Application.Services;
+using Domain.Common;
 using dotenv.net;
 using Infrastructure.Persistence.Db;
 using Infrastructure.Services;
@@ -20,13 +21,19 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services
-    .AddDbContext<IAppDbContext, StoreDbContext>(o => o
-        .UseSqlite($"DATA SOURCE = {Environment.GetEnvironmentVariable("DB__PATH")}"));
+    .AddDbContext<IAppDbContext, StoreDbContext>(o =>
+    {
+        var dbPath = "DB__PATH".GetFromEnvRequired();
+        o.UseSqlite($"DATA SOURCE = {dbPath}");
+    });
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
 
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
-    x.TokenValidationParameters = JwtGenerator.TokenValidationParameters);
+{
+    x.TokenValidationParameters = JwtGenerator.TokenValidationParameters;
+    x.Events = JwtGenerator.Events;
+});
 builder.Services.AddAuthorization();
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 {
