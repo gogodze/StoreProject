@@ -2,7 +2,7 @@
 @inject HttpClient Client
 
 <div
-    class="container flex justify-between bg-background dark:bg-background text-primary-foreground dark:text-primary-foreground border border-border dark:border-border rounded-md">
+    class="container flex justify-between bg-background text-primary-foreground border border-border rounded-md">
     @foreach (var category in _categories)
     {
         <Card Text="@category.Key" Image=@category.Value></Card>
