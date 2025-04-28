@@ -1,4 +1,6 @@
+using Application.Products.Commands;
 using Application.Products.Queries;
+using Domain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,14 @@ public class ProductController(IMediator mediator) : ApiController
     public async Task<IActionResult> GetProductByName(string name)
     {
         var request = await mediator.Send(new GetProductsByNameQuery(name, 10, 1));
+        return Ok(request);
+    }
+
+    [Authorize(Roles = nameof(Role.ProductManager))]
+    [HttpPost("/products/add")]
+    public async Task<IActionResult> AddProduct([FromBody] AddProductCommand command)
+    {
+        var request = await mediator.Send(command);
         return Ok(request);
     }
 }
