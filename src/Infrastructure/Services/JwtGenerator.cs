@@ -15,9 +15,6 @@ public class JwtGenerator : IJwtGenerator
     private static readonly string ClaimsIssuer = "JWT__ISSUER".GetFromEnvRequired();
     private static readonly string ClaimsAudience = "JWT__AUDIENCE".GetFromEnvRequired();
     private static readonly string Key = "JWT__KEY".GetFromEnvRequired();
-    private readonly JwtSecurityTokenHandler _handler = new();
-    private readonly SymmetricSecurityKey _securityKey = new(Encoding.UTF8.GetBytes(Key));
-    private SigningCredentials SigningCredentials => new(_securityKey, SecurityAlgorithms.HmacSha256);
 
     public static readonly JwtBearerEvents Events = new()
     {
@@ -59,6 +56,10 @@ public class JwtGenerator : IJwtGenerator
         ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
     };
 
+    private readonly JwtSecurityTokenHandler _handler = new();
+    private readonly SymmetricSecurityKey _securityKey = new(Encoding.UTF8.GetBytes(Key));
+    private SigningCredentials SigningCredentials => new(_securityKey, SecurityAlgorithms.HmacSha256);
+
 
     public string GenerateToken(User user)
     {
@@ -66,7 +67,7 @@ public class JwtGenerator : IJwtGenerator
         var claims = new List<Claim>
         {
             new("sub", user.Id.ToString()),
-            new("name", user.Name),
+            new("name", user.FullName),
             new("email", user.Email),
             new Claim("role", user.Role.ToString()),
         };

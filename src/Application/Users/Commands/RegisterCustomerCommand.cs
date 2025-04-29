@@ -10,13 +10,7 @@ namespace Application.Users.Commands;
 public sealed record RegisterCustomerCommand : IRequest<User>
 {
     [LogMasked]
-    public required string Name { get; init; }
-
-    [LogMasked]
-    public required string Surname { get; init; }
-
-    [LogMasked]
-    public required string UserName { get; init; }
+    public required string FullName { get; init; }
 
     [LogMasked]
     public required string Password { get; init; }
@@ -32,9 +26,7 @@ public sealed record RegisterCustomerCommandHandler(IAppDbContext DbContext) : I
         var user = new User
         {
             Id = Ulid.NewUlid(),
-            Name = request.Name,
-            Surname = request.Surname,
-            UserName = request.UserName,
+            FullName = request.FullName,
             HashedPassword = EnhancedHashPassword(request.Password),
             Role = Role.Customer,
             RegisterDate = DateTime.Now,

@@ -11,7 +11,7 @@ public sealed record GetAllUsersQueryHandler(IAppDbContext DbContext) : IRequest
 {
     public async Task<IEnumerable<User>> Handle(GetAllUsersQuery request, CancellationToken ct)
     {
-        return await DbContext.Set<User>().AsNoTracking().OrderBy(x => x.Name)
+        return await DbContext.Set<User>().AsNoTracking().OrderBy(x => x.FullName)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize).ToListAsync(ct);
     }
