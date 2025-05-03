@@ -1,6 +1,7 @@
 ﻿using Application.Services;
 using Domain.Aggregates;
 using Domain.ValueObjects;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,18 @@ public sealed record UpdateRefreshTokenCommand : IRequest<bool>
     public Ulid Userid { get; set; }
 
     public RefreshToken RefreshToken { get; set; } = null!;
+}
+
+public class UpdateRefreshTokenCommandValidator : AbstractValidator<UpdateRefreshTokenCommand>
+{
+    public UpdateRefreshTokenCommandValidator()
+    {
+        RuleFor(x => x.Userid)
+            .NotEmpty();
+
+        RuleFor(x => x.RefreshToken)
+            .NotNull();
+    }
 }
 
 public sealed record UpdateRefreshTokenCommandHandler(IAppDbContext DbContext) : IRequestHandler<UpdateRefreshTokenCommand, bool>

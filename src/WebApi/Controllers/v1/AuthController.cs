@@ -11,6 +11,8 @@ public class AuthController(IMediator mediator) : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginCommand login)
     {
+        LoginCommandValidator commandValidator = new();
+        await commandValidator.ValidateAsync(login);
         var result = await mediator.Send(login);
         return result is LoginResult.Success ? Ok(result) : BadRequest(result);
     }

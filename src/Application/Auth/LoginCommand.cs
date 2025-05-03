@@ -2,6 +2,7 @@
 using Destructurama.Attributed;
 using Domain.Aggregates;
 using Domain.ValueObjects;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using static BCrypt.Net.BCrypt;
@@ -24,6 +25,22 @@ public abstract record LoginResult
     public sealed record Success(User User, string Token) : LoginResult;
 
     public sealed record Failure(IEnumerable<string> Errors) : LoginResult;
+}
+
+public class LoginCommandValidator : AbstractValidator<LoginCommand>
+{
+    public LoginCommandValidator()
+    {
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress()
+            .MaximumLength(20);
+
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .MinimumLength(6)
+            .MaximumLength(50);
+    }
 }
 
 public sealed record LoginCommandHandler(IAppDbContext DbContext, IJwtGenerator JwtGenerator) : IRequestHandler<LoginCommand, LoginResult>

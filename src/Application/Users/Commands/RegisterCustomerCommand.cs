@@ -2,6 +2,7 @@
 using Destructurama.Attributed;
 using Domain.Aggregates;
 using Domain.ValueObjects;
+using FluentValidation;
 using MediatR;
 using static BCrypt.Net.BCrypt;
 
@@ -17,6 +18,27 @@ public sealed record RegisterCustomerCommand : IRequest<User>
 
     [LogMasked]
     public required string Email { get; init; }
+}
+
+public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>
+{
+    public RegisterCustomerCommandValidator()
+    {
+        RuleFor(x => x.FullName)
+            .NotEmpty()
+            .MinimumLength(5)
+            .MaximumLength(15);
+
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .MinimumLength(6)
+            .MaximumLength(50);
+
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress()
+            .MaximumLength(50);
+    }
 }
 
 public sealed record RegisterCustomerCommandHandler(IAppDbContext DbContext) : IRequestHandler<RegisterCustomerCommand, User>
