@@ -1,6 +1,4 @@
 ﻿@using Domain.ValueObjects
-@inject HttpClient Client
-
 <div
     class="container flex justify-between bg-background text-primary-foreground border border-border rounded-md">
     @foreach (var category in _categories)
@@ -26,10 +24,10 @@
 
     private async Task<byte[]> GetImageByName(string name)
     {
-        var imageUrl = $"Images/Categories/{name}.jpg";
+        var imageUrl = $"wwwroot/Images/Categories/{name}.jpg";
         try
         {
-            var image = await Client.GetByteArrayAsync(imageUrl);
+            var image = await File.ReadAllBytesAsync(imageUrl);
             return image;
         }
         catch (HttpRequestException)

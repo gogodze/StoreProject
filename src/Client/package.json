@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build": "npx @tailwindcss/cli -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify",
-    "watch": "npx @tailwindcss/cli -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --watch"
+    "build": "npx @tailwindcss/cli -i ./wwwroot/app.css -o ./wwwroot/app.min.css --minify",
+    "watch": "npx @tailwindcss/cli -i ./wwwroot/app.css -o ./wwwroot/app.min.css --minify --watch"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.3"
+    "@tailwindcss/cli": "^4.1.5"
   }
 }

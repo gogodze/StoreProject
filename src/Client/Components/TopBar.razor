@@ -36,13 +36,8 @@
 @code {
     private bool IsDarkMode { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        IsDarkMode = await Js.InvokeAsync<bool>("checkTheme");
-    }
-
     private async Task ToggleDarkMode()
     {
-        IsDarkMode = await Js.InvokeAsync<bool>("toggleDarkMode");
+        IsDarkMode = await Js.InvokeAsync<bool>("window.toggleDarkMode");
     }
 }
