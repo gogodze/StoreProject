@@ -1,4 +1,5 @@
 using Application.Services;
+using Blazored.Toast;
 using Client.Components;
 using Domain.Common;
 using dotenv.net;
@@ -6,7 +7,6 @@ using Infrastructure.Persistence.Db;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 //get environment variables
@@ -14,7 +14,7 @@ DotEnv.Fluent()
     .WithTrimValues()
     .WithOverwriteExistingVars().WithProbeForEnv(6)
     .Load();
-builder.Services.AddOpenApi();
+builder.Services.AddBlazoredToast();
 builder.Services
     .AddDbContext<IAppDbContext, StoreDbContext>(o =>
     {
@@ -48,8 +48,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseDeveloperExceptionPage();
-    app.MapOpenApi();
-    app.MapScalarApiReference();
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

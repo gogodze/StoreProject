@@ -5,7 +5,7 @@
         <p class="text-base @(Description == null ? "hidden" : "")">
             @Description
         </p>
-        <img class="@(Image == null ? "hidden" : "")" src="@Image" alt="Image">
+        <img class="@(Image is null ? "hidden" : "")" src="@Image" alt="Image">
     </div>
 
 

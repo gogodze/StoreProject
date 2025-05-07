@@ -1,8 +1,77 @@
 ﻿@page "/LogIn"
+@using Application.Auth
+@using Application.Services
+@using Domain.ValueObjects
+@inject IToastService Toast
+@inject IMediator Mediator
+@inject NavigationManager Nav
+@inject IJwtGenerator JwtGenerator
+
+<div class="flex-grow flex items-center justify-center h-screen px-5">
+    <form class="flex w-1/5 flex-col p-8 bg-background text-foreground border border-border rounded-lg shadow">
+        <div class="mb-5">
+            <label for="Email" class="block mb-2 text-sm font-medium text-muted-foreground">Email</label>
+            <input type="email" id="Email" @bind-value="Command.Email"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Email" required/>
+        </div>
+        <div class="mb-5">
+            <label for="Password" class="block mb-2 text-sm font-medium text-muted-foreground">Password</label>
+            <input type="password" id="Password" @bind-value="Command.Password"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Password" required/>
+        </div>
 
 
+        <div class="flex items-center mb-5">
+            <div class="flex items-center h-5">
+                <input id="remember" type="checkbox" value=""
+                       class="w-4 h-4 border border-border bg-secondary rounded-sm"
+                       required/>
+            </div>
+            <label for="remember" class="ms-2 text-sm font-medium text-muted-foreground">Remember me</label>
+        </div>
+        <button type="submit" @onclick="OnValidSubmit"
+                class="text-primary focus:ring-1 hover:cursor-pointer bg-secondary font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+            Submit
+        </button>
+        <span class="text-center text-sm text-muted-foreground mt-4">Don't have an account? <a
+                @onclick="@(() => Nav.NavigateTo("/Register"))" class="text-primary hover:cursor-pointer">Register</a> instead</span>
+    </form>
+</div>
 
-<LoginForm></LoginForm>
+@code
+{
+    private LoginCommand Command { get; set; } = new();
 
-@code {
+    private async Task OnValidSubmit()
+    {
+        var validator = new LoginCommandValidator();
+        var validationResult = await validator.ValidateAsync(Command);
+        if (!validationResult.IsValid)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                Toast.ShowError(error.ErrorMessage);
+            }
+
+            return;
+        }
+
+        var user = await Mediator.Send(Command);
+
+        if (user is not null)
+        {
+            var token = JwtGenerator.GenerateToken(user);
+            user.RefreshToken = RefreshToken.CreateNew();
+            Console.WriteLine(token);
+            // var token = JwtGenerator.GenerateToken(user.GetClaims(), TimeSpan.FromDays(1), DateTimeProvider);
+            // await Cookies.SetAsync("authorization", token);
+            // Nav.NavigateTo("/", true);
+        }
+        else
+        {
+            Toast.ShowError("Wrong email or password");
+        }
+    }
 }

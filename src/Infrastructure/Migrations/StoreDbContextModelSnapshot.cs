@@ -16,7 +16,7 @@ namespace Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
 
             modelBuilder.Entity("Domain.Aggregates.User", b =>
                 {
@@ -28,14 +28,14 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("ProfilePicture")
@@ -49,16 +49,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
 
                     b.ComplexProperty<Dictionary<string, object>>("Address", "Domain.Aggregates.User.Address#Address", b1 =>
                         {

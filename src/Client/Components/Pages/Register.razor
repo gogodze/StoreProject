@@ -1,8 +1,63 @@
 ﻿@page "/Register"
+@using Application.Users.Commands
+@inject IToastService Toast
+@inject IMediator Mediator
+@inject NavigationManager Nav
+
+<div class="flex-grow flex items-center justify-center h-screen px-5">
+    <form class="flex w-1/5 flex-col p-8 bg-background text-foreground border border-border rounded-lg shadow">
+        <div class="mb-5">
+            <label for="FullName" class="block mb-2 text-sm font-medium text-muted-foreground">Full Name</label>
+            <input type="text" id="FullName" @bind-value="Command.FullName"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Full Name" required/>
+        </div>
+        <div class="mb-5">
+            <label for="Email" class="block mb-2 text-sm font-medium text-muted-foreground">Email</label>
+            <input type="email" id="Email" @bind-value="Command.Email"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Email" required/>
+        </div>
+        <div class="mb-5">
+            <label for="Password" class="block mb-2 text-sm font-medium text-muted-foreground">Password</label>
+            <input type="password" id="Password" @bind-value="Command.Password"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Password" required/>
+        </div>
+        <div class="mb-5">
+            <label for="ConfirmPassword" class="block mb-2 text-sm font-medium text-muted-foreground">Confirm Password</label>
+            <input type="password" id="ConfirmPassword" @bind-value="Command.ConfirmPassword"
+                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
+                   placeholder="Confirm Password" required/>
+        </div>
+        <button type="submit" @onclick="OnValidSubmit"
+                class="text-primary bg-secondary focus:ring-1 hover:cursor-pointer focus:outline-none focus:ring-primary font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+            Submit
+        </button>
+    </form>
+</div>
+
+@code{
+    private RegisterCustomerCommand Command { get; set; } = new();
+
+    private async Task OnValidSubmit()
+    {
+        var validator = new RegisterCustomerCommandValidator();
+        var validationResult = await validator.ValidateAsync(Command);
+        if (!validationResult.IsValid)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                Toast.ShowError(error.ErrorMessage);
+            }
+
+            return;
+        }
 
 
+        await Mediator.Send(Command);
 
-<RegisterForm></RegisterForm>
-
-@code {
+        Toast.ShowSuccess("User registered successfully");
+        Nav.NavigateTo("/Login");
+    }
 }

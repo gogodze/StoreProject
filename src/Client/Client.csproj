@@ -4,6 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,9 +17,12 @@
     <ItemGroup>
         <PackageReference Include="Blazicons" Version="2.1.30"/>
         <PackageReference Include="Blazicons.GoogleMaterialDesign" Version="2.1.15"/>
+        <PackageReference Include="Blazored.Toast" Version="4.2.1"/>
         <PackageReference Include="dotenv.net" Version="3.2.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
-        <PackageReference Include="Scalar.AspNetCore" Version="2.2.7"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>

@@ -11,13 +11,16 @@ namespace Application.Users.Commands;
 public sealed record RegisterCustomerCommand : IRequest<User>
 {
     [LogMasked]
-    public required string FullName { get; init; }
+    public string FullName { get; set; }
 
     [LogMasked]
-    public required string Password { get; init; }
+    public string Password { get; set; }
 
     [LogMasked]
-    public required string Email { get; init; }
+    public string Email { get; set; }
+
+    [LogMasked]
+    public string ConfirmPassword { get; set; }
 }
 
 public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustomerCommand>

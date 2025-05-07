@@ -9,6 +9,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "watch": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "watch run development --launch-profile https --non-interactive",
+      "environmentVariables": {
+        "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "1"
+      }
     }
   }
 }
