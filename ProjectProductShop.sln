@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{47543174-2DF5-403A-97B4-D0DB293233D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A22A0B59-33FD-455B-99BF-948A17F3D120}"
+	ProjectSection(SolutionItems) = preProject
+		src\Dockerfile = src\Dockerfile
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{884E8E41-E6FA-49E8-AC94-688FB7901C3C}"
 EndProject
