@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -35,20 +35,19 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     RefreshToken = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
-                    Surname = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
+                    FullName = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
                     HashedPassword = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false),
                     RegisterDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Address_AddressLine1 = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Address_AddressLine2 = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Address_City = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
+                    Address_State = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    Address_Country = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    Address_ZipCode = table.Column<string>(type: "TEXT", nullable: true),
                     ProfilePicture = table.Column<byte[]>(type: "BLOB", nullable: true),
-                    Address_AddressLine1 = table.Column<string>(type: "TEXT", nullable: false),
-                    Address_AddressLine2 = table.Column<string>(type: "TEXT", nullable: true),
-                    Address_City = table.Column<string>(type: "TEXT", nullable: false),
-                    Address_Country = table.Column<string>(type: "TEXT", nullable: false),
-                    Address_State = table.Column<string>(type: "TEXT", nullable: true),
-                    Address_ZipCode = table.Column<int>(type: "INTEGER", nullable: false)
+                    EmailShadowHash = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

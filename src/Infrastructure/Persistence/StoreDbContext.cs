@@ -3,13 +3,17 @@ using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
 using Domain.ValueObjects;
+using EntityFrameworkCore.DataProtection.Extensions;
 using Infrastructure.Persistence.Configurations;
 using Infrastructure.ValueConverters;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Db;
+namespace Infrastructure.Persistence;
 
-public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options), IAppDbContext
+public class StoreDbContext(
+    DbContextOptions<StoreDbContext> options,
+    IDataProtectionProvider dataProtectionProvider) : DbContext(options), IAppDbContext
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<User> Users => Set<User>();
@@ -17,13 +21,12 @@ public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContex
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
-
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
-
         base.OnModelCreating(modelBuilder);
+        modelBuilder.UseDataProtection(dataProtectionProvider);
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder conventionsBuilder)
