@@ -21,14 +21,12 @@ public class StoreDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
+        base.OnModelCreating(modelBuilder);
         modelBuilder.UseDataProtection(dataProtectionProvider);
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
             entity.SetTableName(entity.GetTableName()?.ToSnakeCaseRename());
-
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
-
-        base.OnModelCreating(modelBuilder);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder conventionsBuilder)

@@ -24,8 +24,8 @@ builder.Services.AddDataProtectionServices("StoreProject")
 builder.Services
     .AddDbContext<IAppDbContext, StoreDbContext>(o =>
     {
-        var dbPath = "DB__PATH".GetFromEnvRequired();
         o.AddDataProtectionInterceptors();
+        var dbPath = "DB__PATH".GetFromEnvRequired();
         o.UseSqlite($"DATA SOURCE = {dbPath}");
     });
 

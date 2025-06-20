@@ -2,10 +2,10 @@ namespace Domain.ValueObjects;
 
 public sealed record Address
 {
-    public string AddressLine1 { get; init; } = null!;
+    public required string AddressLine1 { get; init; }
     public string? AddressLine2 { get; init; }
-    public string City { get; init; } = null!;
+    public required string City { get; init; }
     public string? State { get; init; }
-    public string Country { get; init; } = null!;
-    public int ZipCode { get; init; }
+    public required string Country { get; init; }
+    public required string ZipCode { get; init; }
 }

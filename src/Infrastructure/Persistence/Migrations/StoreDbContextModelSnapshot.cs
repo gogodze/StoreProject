@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
     partial class StoreDbContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
 
             modelBuilder.Entity("Domain.Aggregates.User", b =>
                 {
@@ -26,7 +26,13 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
-                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true)
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsQueryable", true)
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsUniqueIndex", true);
+
+                    b.Property<string>("EmailShadowHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -171,13 +177,13 @@ namespace Infrastructure.Migrations
                                 .HasColumnType("TEXT")
                                 .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
-                            b1.Property<int>("ZipCode")
-                                .HasColumnType("INTEGER")
-                                .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
+                            b1.Property<string>("ZipCode")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("address");
+                            b1.ToTable("users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
