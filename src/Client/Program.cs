@@ -3,9 +3,11 @@ using Blazored.Toast;
 using Client.Components;
 using Domain.Common;
 using dotenv.net;
-using Infrastructure.Persistence.Db;
+using EntityFrameworkCore.DataProtection.Extensions;
+using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,12 +17,19 @@ DotEnv.Fluent()
     .WithOverwriteExistingVars().WithProbeForEnv(6)
     .Load();
 builder.Services.AddBlazoredToast();
+builder.Services.AddDataProtectionServices("StoreProject")
+    .PersistKeysToFileSystem(new DirectoryInfo
+        ("DATAPROTECTION__KEYS__PATH".GetFromEnvRequired()));
+
 builder.Services
     .AddDbContext<IAppDbContext, StoreDbContext>(o =>
     {
         var dbPath = "DB__PATH".GetFromEnvRequired();
+        o.AddDataProtectionInterceptors();
         o.UseSqlite($"DATA SOURCE = {dbPath}");
     });
+
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
 
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();

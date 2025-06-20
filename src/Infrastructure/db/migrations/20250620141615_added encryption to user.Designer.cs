@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.db.migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20250424181351_Initial")]
-    partial class Initial
+    [Migration("20250620141615_added encryption to user")]
+    partial class addedencryptiontouser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
 
             modelBuilder.Entity("Domain.Aggregates.User", b =>
                 {
@@ -28,40 +28,34 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT")
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("TEXT")
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                     b.Property<byte[]>("ProfilePicture")
                         .HasColumnType("BLOB");
 
                     b.Property<string>("RefreshToken")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
 
                     b.ComplexProperty<Dictionary<string, object>>("Address", "Domain.Aggregates.User.Address#Address", b1 =>
                         {

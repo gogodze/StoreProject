@@ -11,7 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Klean.EntityFrameworkCore.DataProtection" Version="1.2.1"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.6"/>
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="9.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
