@@ -10,17 +10,17 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.Property(x => x.Email).IsEncryptedQueryable().HasMaxLength(40).IsRequired();
-        builder.Property(x => x.FullName).IsEncrypted().HasMaxLength(15).IsRequired();
-        builder.Property(x => x.HashedPassword).IsEncrypted().HasMaxLength(50).IsRequired();
+        builder.Property(x => x.FullName).IsEncryptedQueryable().HasMaxLength(15).IsRequired();
+        builder.Property(x => x.HashedPassword).IsEncryptedQueryable().HasMaxLength(50).IsRequired();
         builder.Property(x => x.Role).IsRequired();
-        builder.Property(x => x.RefreshToken).IsEncrypted().IsRequired(false);
+        builder.Property(x => x.RefreshToken).IsEncryptedQueryable().IsRequired(false);
         builder.OwnsOne(x => x.Address, address =>
         {
-            address.Property(a => a.AddressLine1).IsEncrypted().HasMaxLength(100).IsRequired();
-            address.Property(a => a.AddressLine2).IsEncrypted().HasMaxLength(100).IsRequired(false);
-            address.Property(a => a.City).IsEncrypted().HasMaxLength(15).IsRequired();
-            address.Property(a => a.Country).IsEncrypted().HasMaxLength(10).IsRequired();
-            address.Property(a => a.State).IsEncrypted().HasMaxLength(10).IsRequired();
+            address.Property(a => a.AddressLine1).IsEncryptedQueryable().HasMaxLength(100).IsRequired();
+            address.Property(a => a.AddressLine2).IsEncryptedQueryable().HasMaxLength(100).IsRequired(false);
+            address.Property(a => a.City).IsEncryptedQueryable().HasMaxLength(15).IsRequired();
+            address.Property(a => a.Country).IsEncryptedQueryable().HasMaxLength(10).IsRequired();
+            address.Property(a => a.State).IsEncryptedQueryable().HasMaxLength(10).IsRequired();
             address.Property(a => a.ZipCode).IsRequired();
         });
 
