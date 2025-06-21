@@ -8,6 +8,7 @@ using Infrastructure.Persistence.Configurations;
 using Infrastructure.ValueConverters;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence;
 
@@ -18,6 +19,8 @@ public class StoreDbContext(
     public DbSet<Product> Products => Set<Product>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Order> Orders => Set<Order>();
+
+    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct = default) => Database.BeginTransactionAsync(ct);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
