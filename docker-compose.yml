@@ -9,8 +9,8 @@
     volumes:
       - ./db.db:/data/db.db
     networks:
-      - app_network
+      - app_net
 
 networks:
-  app_network:
+  app_net:
     external: true
