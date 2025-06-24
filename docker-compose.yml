@@ -2,8 +2,8 @@
   storeapp:
     image: gogodze/store-staging:latest
     ports:
-      - "80:80"
-      - "443:443"
+      - "9000:80"
+      - "9004:443"
     env_file:
       - .env
     volumes:
