@@ -91,7 +91,8 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
-          mkdir -v -m 700 $HOME/.ssh
+          mkdir -p $HOME/.ssh
+          chmod 700 $HOME/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > $HOME/.ssh/id_rsa
           chmod 400 $HOME/.ssh/id_rsa
@@ -102,7 +103,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          scp -P $SSH_PORT docker-compose.yaml $SSH_USER@$SSH_HOST:/home/david/Programs/ci-cd/docker-compose.yml'
+          scp -P $SSH_PORT docker-compose.yaml $SSH_USER@$SSH_HOST:/home/david/Programs/ci-cd/docker-compose.yml
           
           
           echo "--- Deploying to server ---"
