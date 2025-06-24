@@ -92,38 +92,37 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
-          set +e
           mkdir -pv -m 700 $HOME/.ssh
           echo hi > $HOME/.ssh/known_hosts
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" > $HOME/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > $HOME/.ssh/id_rsa
           chmod 400 $HOME/.ssh/id_rsa
 
-      - name: "[🚀] Deploy to Droplet"
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-        run: |
-          pwd
-          ls -la
-          scp -P $SSH_PORT docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/store/docker-compose.yml
-          
-          echo "--- Deploying to server ---"
-          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
-            set -e
-
-            echo "Logging into docker hub"
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-
-            echo "Pulling latest Docker image: ${{ env.DOCKER_IMAGE_NAME }}:latest"
-            docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
-          
-            echo "Stopping and removing old containers (docker compose down)..."
-            docker compose down
-          
-            echo "Starting new containers (docker compose up -d)..."
-            docker compose up -d
-          
-            echo "Deployment complete."
-          EOF
+#      - name: "[🚀] Deploy to Droplet"
+#        env:
+#          SSH_USER: ${{ secrets.SSH_USER }}
+#          SSH_HOST: ${{ secrets.SSH_HOST }}
+#          SSH_PORT: ${{ secrets.SSH_PORT }}
+#        run: |
+#          pwd
+#          ls -la
+#          scp -P $SSH_PORT docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/store/docker-compose.yml
+#
+#          echo "--- Deploying to server ---"
+#          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
+#            set -e
+#
+#            echo "Logging into docker hub"
+#            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#            echo "Pulling latest Docker image: ${{ env.DOCKER_IMAGE_NAME }}:latest"
+#            docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
+#
+#            echo "Stopping and removing old containers (docker compose down)..."
+#            docker compose down
+#
+#            echo "Starting new containers (docker compose up -d)..."
+#            docker compose up -d
+#
+#            echo "Deployment complete."
+#          EOF
