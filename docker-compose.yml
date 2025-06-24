@@ -13,3 +13,9 @@
       - DB_PATH=/data/db.db
     volumes:
       - ./db.db:/data/db.db
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    external: true
