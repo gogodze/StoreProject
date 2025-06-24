@@ -1,6 +1,6 @@
 ﻿services:
   storeapp:
-    image: gogodze/store:latest
+    image: gogodze/store-staging:latest
     ports:
       - "80:80"
       - "443:443"
