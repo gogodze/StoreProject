@@ -91,6 +91,11 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
+          echo "HOME=$HOME"
+          ls -ld /home/runner
+          ls -la /home/runner/.ssh || echo "No .ssh directory yet"
+          whoami
+          id
           mkdir -p /home/runner/.ssh
           chmod 700 /home/runner/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
