@@ -91,11 +91,11 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
-          mkdir -p $HOME/.ssh
-          chmod 700 $HOME/.ssh
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
-          echo "${{ secrets.SSH_KEY }}" > $HOME/.ssh/id_rsa
-          chmod 400 $HOME/.ssh/id_rsa
+          mkdir -p /home/runner/.ssh
+          chmod 700 /home/runner/.ssh
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/id_rsa
+          chmod 400 /home/runner/.ssh/id_rsa
 
       - name: "[🚀] Deploy to Server"
         env:
