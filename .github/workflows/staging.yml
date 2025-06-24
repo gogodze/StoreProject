@@ -92,10 +92,14 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
+          set +e
           mkdir -v -m 700 ~/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          
           chmod 400 ~/.ssh/id_rsa
+          cat ~/.ssh/id_rsa
 
       - name: "[🚀] Deploy to Droplet"
         env:
