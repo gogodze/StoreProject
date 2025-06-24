@@ -103,6 +103,9 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKER_IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
           pwd
           ls -la
@@ -113,10 +116,10 @@ jobs:
             set -e
 
             echo "Logging into docker hub"
-            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
 
-            echo "Pulling latest Docker image: ${{ env.DOCKER_IMAGE_NAME }}:latest"
-            docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
+            echo 'Pulling latest Docker image: $DOCKER_IMAGE_NAME:latest'
+            docker pull $DOCKER_IMAGE_NAME:latest
 
             echo "Stopping and removing old containers (docker compose down)..."
             docker compose down
