@@ -106,7 +106,7 @@ jobs:
         run: |
           pwd
           ls -la
-          scp -P $SSH_PORT docker-compose.yaml $SSH_USER@$SSH_HOST:/home/david/Programs/ci-cd/docker-compose.yaml
+          scp -P $SSH_PORT docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/ci-cd/docker-compose.yml
           
           echo "--- Deploying to server ---"
           ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
