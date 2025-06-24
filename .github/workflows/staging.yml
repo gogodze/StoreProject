@@ -107,25 +107,28 @@ jobs:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           DOCKER_IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
-          pwd
-          ls -la
           rsync -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/store/
-
+          
           echo "--- Deploying to server ---"
-          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
-            set -e
-
-            echo "Logging into docker hub"
-            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
-
-            echo 'Pulling latest Docker image: $DOCKER_IMAGE_NAME:latest'
-            docker pull $DOCKER_IMAGE_NAME:latest
-
-            echo "Stopping and removing old containers (docker compose down)..."
-            docker compose down
-
-            echo "Starting new containers (docker compose up -d)..."
-            docker compose up -d
-
-            echo "Deployment complete."
+          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST bash -s << EOF
+          set -e
+          export DOCKERHUB_USERNAME="${DOCKERHUB_USERNAME}"
+          export DOCKERHUB_TOKEN="${DOCKERHUB_TOKEN}"
+          export DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME}"
+          
+          echo "Logging into docker hub"
+          echo "\$DOCKERHUB_TOKEN" | docker login -u "\$DOCKERHUB_USERNAME" --password-stdin
+          
+          echo "Pulling latest Docker image: \$DOCKER_IMAGE_NAME:latest"
+          docker pull "\$DOCKER_IMAGE_NAME":latest
+          
+          echo "Stopping and removing old containers (docker compose down)..."
+          docker compose down
+          
+          echo "Starting new containers (docker compose up -d)..."
+          docker compose up -d
+          
+          echo "Deployment complete."
           EOF
+
+
