@@ -1,6 +1,7 @@
 ﻿services:
   storeapp:
     image: gogodze/store-staging:latest
+    container_name: store
     ports:
       - "9000:80"
       - "9004:443"
