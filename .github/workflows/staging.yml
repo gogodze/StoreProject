@@ -113,7 +113,7 @@ jobs:
             set -e
 
             echo "Logging into docker hub"
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
             echo "Pulling latest Docker image: ${{ env.DOCKER_IMAGE_NAME }}:latest"
             docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
