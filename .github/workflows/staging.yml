@@ -97,7 +97,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
           (echo -e "\n# --- Appended on $(date) ---\n"; cat docker-compose.yaml) | \
-          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'cat >> ~/Programs/docker-compose.yaml'
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'cat >> /home/david/Programs/docker-compose.yml'
           
                         
           echo "--- Deploying to server ---"
