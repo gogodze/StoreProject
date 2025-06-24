@@ -106,7 +106,7 @@ jobs:
         run: |
           pwd
           ls -la
-          scp -P $SSH_PORT docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/store/docker-compose.yml
+          rsync -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" docker-compose.yml $SSH_USER@$SSH_HOST:/home/david/Programs/store/
 
           echo "--- Deploying to server ---"
           ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
