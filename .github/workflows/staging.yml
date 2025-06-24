@@ -92,6 +92,7 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
+          set +e
           install -d -m 700 ~/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
