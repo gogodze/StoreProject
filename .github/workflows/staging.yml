@@ -104,6 +104,8 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
+          pwd
+          ls -la
           scp -P $SSH_PORT docker-compose.yaml $SSH_USER@$SSH_HOST:/home/david/Programs/ci-cd/docker-compose.yaml
           
           echo "--- Deploying to server ---"
