@@ -91,10 +91,18 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
-          install -d -m 700 ~/.ssh
+          set +e
+          
+          
+          [ -d ~/.ssh ] || install -d -m 700 ~/.ssh
+
+          chmod 700 ~/.ssh
+
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
+
 
       - name: "[🚀] Deploy to Server"
         env:
