@@ -94,7 +94,7 @@ jobs:
         run: |
           mkdir -pv -m 700 $HOME/.ssh
           touch $HOME/.ssh/known_hosts
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" > $HOME/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > $HOME/.ssh/id_rsa
           chmod 400 $HOME/.ssh/id_rsa
 
