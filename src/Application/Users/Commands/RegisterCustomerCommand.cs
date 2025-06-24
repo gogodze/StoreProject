@@ -69,26 +69,19 @@ public sealed record RegisterCustomerCommandHandler(IAppDbContext DbContext) : I
     public async Task<User> Handle(RegisterCustomerCommand request, CancellationToken ct)
     {
         var transaction = await DbContext.BeginTransactionAsync(ct);
-        try
+
+        var user = new User
         {
-            var user = new User
-            {
-                Id = Ulid.NewUlid(),
-                FullName = request.FullName,
-                HashedPassword = EnhancedHashPassword(request.Password),
-                Role = Role.Customer,
-                RegisterDate = DateTime.Now,
-                Email = request.Email,
-            };
-            await DbContext.Set<User>().AddAsync(user, ct);
-            await DbContext.SaveChangesAsync(ct);
-            await transaction.CommitAsync(ct);
-            return user;
-        }
-        catch (Exception e)
-        {
-            await transaction.RollbackAsync(ct);
-            throw;
-        }
+            Id = Ulid.NewUlid(),
+            FullName = request.FullName,
+            HashedPassword = EnhancedHashPassword(request.Password),
+            Role = Role.Customer,
+            RegisterDate = DateTime.Now,
+            Email = request.Email,
+        };
+        await DbContext.Set<User>().AddAsync(user, ct);
+        await DbContext.SaveChangesAsync(ct);
+        await transaction.CommitAsync(ct);
+        return user;
     }
 }
