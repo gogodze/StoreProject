@@ -92,12 +92,11 @@ jobs:
 
       - name: "[🔑] Set up SSH key"
         run: |
-          cd ~/
-          pwd
-          ls -lah
           mkdir -pv -m 700 ~/.ssh
           echo hi > ~/.ssh/known_hosts
+          set +e
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
+          set -e
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
 
