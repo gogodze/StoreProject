@@ -1,9 +1,6 @@
 ﻿services:
   storeapp:
     image: gogodze/store:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
