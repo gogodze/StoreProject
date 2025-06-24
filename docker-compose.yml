@@ -1,6 +1,7 @@
 ﻿services:
   storeapp:
     image: gogodze/store-staging:latest
+    restart: unless-stopped
     container_name: store
     env_file:
       - .env
