@@ -1,5 +1,8 @@
-﻿namespace Infrastructure;
+﻿using System.Reflection;
 
-public class Infrastructure
+namespace Infrastructure;
+
+public static class Infrastructure
 {
+    public static Assembly Assembly => typeof(Infrastructure).Assembly;
 }

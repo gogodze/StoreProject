@@ -14,12 +14,6 @@ public abstract class AppComponentBase : ComponentBase, IDisposable
     protected ICurrentUserAccessor CurrentUserAccessor { get; set; } = null!;
 
     [Inject]
-    protected IJwtGenerator JwtGenerator { get; set; } = null!;
-
-    [Inject]
-    protected ICookieService CookieService { get; set; } = null!;
-
-    [Inject]
     protected IMediator Mediator { get; set; } = null!;
 
     [Inject]

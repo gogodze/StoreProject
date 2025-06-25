@@ -1,54 +1,17 @@
-using Application.Services;
-using Blazored.Toast;
+using Application;
 using Client.Components;
-using Domain.Common;
 using dotenv.net;
-using EntityFrameworkCore.DataProtection.Extensions;
-using Infrastructure.Persistence;
-using Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
-//get environment variables
 DotEnv.Fluent()
     .WithTrimValues()
     .WithOverwriteExistingVars().WithProbeForEnv(6)
     .Load();
-builder.Services.AddBlazoredToast();
-builder.Services.AddDataProtectionServices("StoreProject")
-    .PersistKeysToFileSystem(new DirectoryInfo
-        ("DATAPROTECTION__KEYS__PATH".GetFromEnvRequired()));
 
-builder.Services
-    .AddDbContext<IAppDbContext, StoreDbContext>(o =>
-    {
-        o.AddDataProtectionInterceptors();
-        var dbPath = "DB__PATH".GetFromEnvRequired();
-        o.UseSqlite($"DATA SOURCE = {dbPath}");
-    });
+var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
-
-builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
-{
-    x.TokenValidationParameters = JwtGenerator.TokenValidationParameters;
-    x.Events = JwtGenerator.Events;
-});
-builder.Services.AddAuthorization();
-builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
-{
-    cors.AllowAnyMethod();
-    cors.AllowAnyOrigin();
-    cors.AllowAnyHeader();
-}));
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
+ConfigurationBase.ConfigureServicesFromAssemblies(builder.Services, [
+    nameof(Domain), nameof(Application), nameof(Infrastructure), nameof(Client),
+]);
 
 var app = builder.Build();
 
@@ -61,8 +24,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseCors();
+// app.UseHttpsRedirection();
+// app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 

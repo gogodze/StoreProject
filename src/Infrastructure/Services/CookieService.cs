@@ -1,8 +1,9 @@
-﻿using Microsoft.JSInterop;
+﻿using Application.Services;
+using Microsoft.JSInterop;
 
 namespace Infrastructure.Services;
 
-public sealed class CookieService(IJSRuntime js)
+public sealed class CookieService(IJSRuntime js) : ICookieService
 {
     public async Task<string> GetCookieAsync(string key, CancellationToken ct = default) =>
         await js.InvokeAsync<string>("window.getCookie", ct, key);

@@ -1,7 +1,10 @@
 ﻿@page "/LogIn"
 @using Application.Auth
+@using Application.Services
 @using Domain.ValueObjects
 @inherits Client.Components.shared.AppComponentBase
+@inject IJwtGenerator JwtGenerator
+@inject ICookieService CookieService
 
 <div class="flex-grow flex items-center justify-center h-screen px-5">
     <form class="flex w-1/5 flex-col p-8 bg-background text-foreground border border-border rounded-lg shadow">

@@ -54,13 +54,16 @@ public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustom
             .MaximumLength(50)
             .WithMessage("Email must be a valid email address and not exceed 50 characters.");
 
-        RuleFor(x => x.Email)
-            .MustAsync(async (_, email, ct) =>
-            {
-                var usersWithPd = await dbContext.Set<User>().WherePdEquals(nameof(User.Email), email).CountAsync(ct);
-                return usersWithPd == 0;
-            })
-            .WithMessage("Email already exists.");
+        RuleSet("async",
+            () =>
+                RuleFor(x => x.Email)
+                    .NotEmpty()
+                    .MustAsync(async (_, email, ct) =>
+                    {
+                        var usersWithPd = await dbContext.Set<User>().WherePdEquals(nameof(User.Email), email).CountAsync(ct);
+                        return usersWithPd == 0;
+                    })
+                    .WithMessage("Email already exists."));
     }
 }
 
