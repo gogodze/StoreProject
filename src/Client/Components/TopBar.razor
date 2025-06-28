@@ -1,7 +1,7 @@
 ﻿<div
     class="z-50  flex justify-between items-center bg-background/10 backdrop-blur-md text-foreground border-b border-border">
     <div class="flex container mx-auto justify-between m-3">
-        <div id="left" class="text-primary ml-1 text-m font-bold flex items-center justify-between space-x-4">
+        <div id="left" class="text-primary ml-1 text-m font-bold flex gap-2 items-center m-2 justify-between space-x-4">
             <a href="/"
                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary cursor-pointer">
 
@@ -28,19 +28,21 @@
         @*     <input type="text" class="pl-2 w-full focus:outline-0" placeholder="Search"/> *@
         @* </div> *@
 
-        <div id="right" class="flex items-center justify-around  space-x-4 text-sm">
+        <div id="right" class="flex items-center justify-around space-x-4 text-sm">
             <a
-                class="flex flex-col p-4 items-center justify-around border border-border rounded-md transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
+                class="flex flex-col p-3 items-center justify-around border border-border rounded-md transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
                 onclick="window.toggleTheme()">
-                <Blazicon Svg=GoogleMaterialRoundIcon.DarkMode class="absolute rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
-                <Blazicon Svg="GoogleMaterialRoundIcon.LightMode" class="absolute dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
+                <Blazicon Svg='GoogleMaterialRoundIcon.DarkMode.WithSize("110%")'
+                          class="absolute rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
+                <Blazicon Svg='GoogleMaterialRoundIcon.LightMode.WithSize("110%")'
+                          class="absolute dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
             </a>
             <a href="/Login"
-               class="border p-2 text-bold border-border rounded-md transition-colors duration-200 text-primary hover:text-primary hover:bg-primary-foreground cursor-pointer">
+               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary hover:bg-primary-foreground cursor-pointer">
                 <span>Login</span>
             </a>
             <a href="/Register"
-               class="border p-2 text-bold border-border rounded-md transition-colors duration-200 text-primary bg-green-500 hover:text-primary hover:bg-primary-foreground cursor-pointer">
+               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary bg-green-600 hover:bg-primary-foreground cursor-pointer">
                 <span>Sign Up</span>
             </a>
 
