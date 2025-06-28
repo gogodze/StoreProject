@@ -1,7 +1,18 @@
 ﻿@using Client.Components.Layout
-<Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-</Router>
+<ErrorBoundary>
+    <ChildContent>
+        <Router AppAssembly="typeof(Program).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
+                <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+            </Found>
+        </Router>
+    </ChildContent>
+    <ErrorContent>
+        <div class="alert alert-danger">
+            <h4>Something went wrong!</h4>
+            <p>We're working on it. Please try again later.</p>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
