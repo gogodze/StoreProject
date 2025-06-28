@@ -1,35 +1,54 @@
-﻿@inject NavigationManager Nav
-<div
-    class="fixed top-0 left-0 right-0 z-50 container flex p-3 justify-between items-center mt-4 mx-auto max-w-[1200px] rounded-lg bg-background text-foreground border border-border">
+﻿<div
+    class="z-50  flex justify-between items-center bg-background/10 backdrop-blur-md text-foreground border-b border-border">
+    <div class="flex container mx-auto justify-between m-3">
+        <div id="left" class="text-primary ml-1 text-m font-bold flex gap-2 items-center m-2 justify-between space-x-4">
+            <a href="/"
+               class="rounded-md flex items-center transition-colors duration-200 hover:text-primary cursor-pointer">
 
-    <button @onclick="@(() => Nav.NavigateTo("/"))" id="left"
-            class="rounded-md text-xl p-4 border border-border transition-colors duration-200 hover:text-primary text-muted-foreground hover:bg-primary-foreground cursor-pointer">
-        <Blazicon Svg='GoogleMaterialRoundIcon.Home'/>
-    </button>
+                <Blazicon Svg='GoogleMaterialRoundIcon.Home.WithSize("200%")'/>
+                <span>Home</span>
+            </a>
+            <a
+                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
+                <span>About us</span>
+            </a>
+            <a
+                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
+                <span>FAQ</span>
+            </a>
+            <a
+                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
+                <span>Contact</span>
+            </a>
+        </div>
 
-    <div
-        class="flex items-center border border-border rounded-md w-full ml-10 mr-10 p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground">
-        <Blazicon Svg='GoogleMaterialRoundIcon.Search'/>
-        <input type="text" class="pl-2 w-full focus:outline-0" placeholder="Search"/>
+        @* <div *@
+        @*     class="flex items-center border border-border rounded-md w-full ml-10 mr-10 p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground"> *@
+        @*     <Blazicon Svg='GoogleMaterialRoundIcon.Search'/> *@
+        @*     <input type="text" class="pl-2 w-full focus:outline-0" placeholder="Search"/> *@
+        @* </div> *@
+
+        <div id="right" class="flex items-center justify-around space-x-4 text-sm">
+            <a
+                class="flex flex-col p-3 items-center justify-around border border-border rounded-md transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
+                onclick="window.toggleTheme()">
+                <Blazicon Svg='GoogleMaterialRoundIcon.DarkMode.WithSize("110%")'
+                          class="absolute rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
+                <Blazicon Svg='GoogleMaterialRoundIcon.LightMode.WithSize("110%")'
+                          class="absolute dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
+            </a>
+            <a href="/Login"
+               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary hover:bg-primary-foreground cursor-pointer">
+                <span>Login</span>
+            </a>
+            <a href="/Register"
+               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary bg-green-600 hover:bg-primary-foreground cursor-pointer">
+                <span>Sign Up</span>
+            </a>
+
+        </div>
     </div>
 
-    <div id="right" class="flex space-x-4 mr-3">
 
-        <button @onclick="@(() => Nav.NavigateTo("/Login"))"
-                class="border text-xl border-border rounded-md p-4 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
-            <Blazicon Svg='GoogleMaterialRoundIcon.Person'/>
-        </button>
-        <button
-            class="border text-xl border-border rounded-md p-4 transition-colors duration-200 text-muted-foreground  hover:text-primary hover:bg-primary-foreground cursor-pointer">
-            <Blazicon Svg='GoogleMaterialRoundIcon.ShoppingCart'/>
-        </button>
-
-    </div>
-    <button
-        class="border border-border rounded-md p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
-        onclick="window.toggleTheme()">
-        <Blazicon Svg=GoogleMaterialRoundIcon.DarkMode class="rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
-        <Blazicon Svg="GoogleMaterialRoundIcon.LightMode" class="dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
-    </button>
 </div>
 
