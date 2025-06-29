@@ -1,8 +1,8 @@
 ﻿@page "/Register"
-@using Application.Users.Commands
-@inject IToastService Toast
-@inject IMediator Mediator
 @inject NavigationManager Nav
+@using Application.Users.Commands
+@inherits Client.Components.shared.AppComponentBase
+
 
 <div class="flex-grow flex items-center justify-center h-screen px-5">
     <form class="flex w-1/5 flex-col p-8 bg-background text-foreground border border-border rounded-lg shadow">
@@ -42,22 +42,15 @@
 
     private async Task OnValidSubmit()
     {
-        var validator = new RegisterCustomerCommandValidator();
-        var validationResult = await validator.ValidateAsync(Command);
-        if (!validationResult.IsValid)
+        var validationResult = await SendCommandAsync(Command);
+        switch (validationResult)
         {
-            foreach (var error in validationResult.Errors)
-            {
-                Toast.ShowError(error.ErrorMessage);
-            }
-
-            return;
+            case null:
+                ShowError("An error occurred while processing your request.");
+                return;
+            default:
+                NavigationManager.NavigateTo("/Login");
+                break;
         }
-
-
-        await Mediator.Send(Command);
-
-        Toast.ShowSuccess("User registered successfully");
-        Nav.NavigateTo("/Login");
     }
 }
