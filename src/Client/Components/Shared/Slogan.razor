@@ -1,4 +1,5 @@
 ﻿<div class="flex items-center justify-center mt-auto gap-4 p-4 w-1/2">
+    <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(2)">
     <div id="slogan" class="flex flex-col items-baseline justify-center gap-y-4">
         <h1 class="text-5xl font-bold">
             <span class="text-[#21bf73]">#1</span>
@@ -9,12 +10,14 @@
         <a class="border p-3 p-x-4 font-bold border-border rounded-md transition-colors duration-200 text-primary bg-[#108a37] hover:bg-[#1aa65f] cursor-pointer">Get
             Started</a>
     </div>
+    </Animate>
 
-    <div id="cart">
-        <img src="Images/Categories/Cart.png" alt="cart" style="max-width: 45vw; max-height: 45vh; width: auto; height: auto;"/>
+    <Animate Animation="Animations.ZoomInLeft" Duration="TimeSpan.FromSeconds(1)">
+        <div id="cart">
+            <img src="Images/Categories/Cart.png" alt="cart" style="max-width: 45vw; max-height: 45vh; width: auto; height: auto;"/>
+        </div>
+    </Animate>
 
-
-    </div>
 </div>
 
 
