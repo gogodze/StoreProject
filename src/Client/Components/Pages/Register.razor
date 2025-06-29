@@ -1,40 +1,42 @@
 ﻿@page "/Register"
 @using Application.Users.Commands
 @inject IToastService Toast
-@inject IMediator Mediator
 @inject NavigationManager Nav
+@inject IMediator Mediator
 
-<div class="flex-grow flex items-center justify-center h-screen px-5">
-    <form class="flex w-1/5 flex-col p-8 bg-background text-foreground border border-border rounded-lg shadow">
-        <div class="mb-5">
-            <label for="FullName" class="block mb-2 text-sm font-medium text-muted-foreground">Full Name</label>
-            <input type="text" id="FullName" @bind-value="Command.FullName"
-                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
-                   placeholder="Full Name" required/>
-        </div>
-        <div class="mb-5">
-            <label for="Email" class="block mb-2 text-sm font-medium text-muted-foreground">Email</label>
-            <input type="email" id="Email" @bind-value="Command.Email"
-                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
-                   placeholder="Email" required/>
-        </div>
-        <div class="mb-5">
-            <label for="Password" class="block mb-2 text-sm font-medium text-muted-foreground">Password</label>
-            <input type="password" id="Password" @bind-value="Command.Password"
-                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
-                   placeholder="Password" required/>
-        </div>
-        <div class="mb-5">
-            <label for="ConfirmPassword" class="block mb-2 text-sm font-medium text-muted-foreground">Confirm Password</label>
-            <input type="password" id="ConfirmPassword" @bind-value="Command.ConfirmPassword"
-                   class="border border-border text-muted-foreground text-sm rounded-lg block w-full p-2.5 bg-background"
-                   placeholder="Confirm Password" required/>
-        </div>
-        <button type="submit" @onclick="OnValidSubmit"
-                class="text-primary bg-secondary focus:ring-1 hover:cursor-pointer focus:outline-none focus:ring-primary font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-            Submit
-        </button>
-    </form>
+
+
+<div class="w-full h-auto flex flex-col justify-center items-center pt-10">
+    <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center">
+        <h1 class="text-bold text-4xl">Create your account</h1>
+
+        <form class="flex flex-col space-y-2 w-96 mt-4" @onsubmit="OnValidSubmit">
+            <div id="sso-buttons" class="flex w-full items-center justify-evenly gap-10">
+                <a class="w-full flex justify-center items-center h-9 px-3 py-2 rounded-md border border-border hover:bg-gray-100 transition-colors duration-200">
+                    <img alt="google" class="h-6 w-6  mx-auto"
+                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/24px-Google_%22G%22_logo.svg.png">
+                </a>
+                <a class="w-full flex justify-center items-center h-9 px-3 py-2 rounded-md border border-border hover:bg-gray-100 transition-colors duration-200">
+                    <img alt="microsoft" class="h-6 w-6  mx-auto"
+                         src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"/>
+                </a>
+            </div>
+            <h3 class="m-auto text-muted-foreground">Or continue with email</h3>
+            <label for="email">Full name</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="email" name="email" placeholder="your name"/>
+            <label for="Password">Email</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="Password" name="email"
+                   placeholder="name@example.com"/>
+            <label for="Password">Password</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="Password" name="email" placeholder="..."/>
+            <button type="submit"
+                    class="mt-3 flex justify-center h-9 items-center gap-1 text-primary rounded-md shadow-md border border-border hover:bg-primary-foreground transition-colors duration-200">
+                <Blazicon Svg="GoogleMaterialFilledIcon.Login"></Blazicon>
+                Sign Up
+            </button>
+        </form>
+    </div>
+
 </div>
 
 @code{

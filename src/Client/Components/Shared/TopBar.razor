@@ -1,54 +1,43 @@
-﻿<div
-    class="z-50  flex justify-between items-center bg-background/10 backdrop-blur-md text-foreground border-b border-border">
-    <div class="flex container mx-auto justify-between m-3">
-        <div id="left" class="text-primary ml-1 text-m font-bold flex gap-2 items-center m-2 justify-between space-x-4">
-            <a href="/"
-               class="rounded-md flex items-center transition-colors duration-200 hover:text-primary cursor-pointer">
-
-                <Blazicon Svg='GoogleMaterialRoundIcon.Home.WithSize("200%")'/>
-                <span>Home</span>
-            </a>
-            <a
-                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
-                <span>About us</span>
-            </a>
-            <a
-                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
-                <span>FAQ</span>
-            </a>
-            <a
-                class="rounded-md flex items-center transition-colors duration-200 hover:text-primary text-muted-foreground cursor-pointer">
-                <span>Contact</span>
-            </a>
+﻿<div class="sticky top-0 z-50 bg-background/10 backdrop-blur-md text-foreground border-b border-border">
+    <div class="container mx-auto flex items-center justify-between p-3">
+        <div class="flex items-center justify-between w-full gap-4 lg:w-auto">
+            <button class="lg:hidden p-2" onclick="window.toggleNav()">
+                <Blazicon Svg='GoogleMaterialRoundIcon.Menu.WithSize("150%")' class="text-primary"/>
+            </button>
+            <div id="nav-left"
+                 class="w-full hidden gap-2 mt-3 flex-col lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-4 lg:mt-0 lg:w-auto text-primary font-bold text-md">
+                <a href="/" class="flex items-center gap-2 text-primary font-bold text-md">
+                    <Blazicon Svg='GoogleMaterialRoundIcon.Home.WithSize("200%")'/>
+                    <span>Home</span>
+                </a>
+                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">About us</a>
+                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">FAQ</a>
+                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">Contact</a>
+            </div>
         </div>
 
-        @* <div *@
-        @*     class="flex items-center border border-border rounded-md w-full ml-10 mr-10 p-3 transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground"> *@
-        @*     <Blazicon Svg='GoogleMaterialRoundIcon.Search'/> *@
-        @*     <input type="text" class="pl-2 w-full focus:outline-0" placeholder="Search"/> *@
-        @* </div> *@
-
-        <div id="right" class="flex items-center justify-around space-x-4 text-sm">
-            <a
-                class="flex flex-col p-3 items-center justify-around border border-border rounded-md transition-colors duration-200 text-muted-foreground hover:text-primary hover:bg-primary-foreground cursor-pointer"
+        <div class="flex items-center gap-2">
+            <button
+                class="relative p-2 mr-2 flex items-center justify-center rounded-md text-muted-foreground hover:text-primary hover:bg-primary-foreground transition-colors"
                 onclick="window.toggleTheme()">
                 <Blazicon Svg='GoogleMaterialRoundIcon.DarkMode.WithSize("110%")'
                           class="absolute rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
                 <Blazicon Svg='GoogleMaterialRoundIcon.LightMode.WithSize("110%")'
                           class="absolute dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
-            </a>
+            </button>
+
             <a href="/Login"
-               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary hover:bg-primary-foreground cursor-pointer">
-                <span>Login</span>
+               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                Login
             </a>
             <a href="/Register"
-               class="border p-2 font-bold border-border rounded-md transition-colors duration-200 text-primary bg-[#108a37] hover:bg-[#1aa65f] cursor-pointer">
-                <span>Sign Up</span>
+               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
+                Sign Up
             </a>
-
         </div>
     </div>
-
-
 </div>
 
+@code
+{
+}

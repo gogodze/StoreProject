@@ -8,14 +8,65 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"/>
 
-<div class="min-h-screen">
-    <TopBar/>
-    @Body
-</div>
+
+<TopBar/>
+@Body
+<Footer/>
 
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+@* <div id="blazor-error-ui" data-nosnippet> *@
+@*     An unhandled error has occurred. *@
+@*     <a href="." class="reload">Reload</a> *@
+@*     <span class="dismiss">🗙</span> *@
+@* </div> *@
+@* *@
+@* <div id="components-reconnect-modal"> *@
+@*     <div id="reconnect-show"> *@
+@*         <div class="space-y-1"> *@
+@*             <div class="text-2xl">detected a networking issue</div> *@
+@*             <div>this is not a major issue</div> *@
+@*         </div> *@
+@*             to continue please reload *@
+@*         <div> *@
+@*             <a class="w-full" onclick="location.reload()"> *@
+@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
+@*                 reload *@
+@*             </a> *@
+@*         </div> *@
+@*     </div> *@
+@* *@
+@*     <div id="reconnect-hide"> *@
+@*         <div class="space-y-1"> *@
+@*             <div class="text-2xl">Success</div> *@
+@*         </div> *@
+@*             Server connection restored *@
+@*     </div> *@
+@* *@
+@*     <div id="reconnect-failed"> *@
+@*         <div class="space-y-1"> *@
+@*             <div class="text-2xl">detected a networking issue</div> *@
+@*             <div>this is not a major issue</div> *@
+@*         </div> *@
+@*             to continue please reload *@
+@*         <div> *@
+@*             <a class="w-full" onclick="window.Blazor.reconnect()"> *@
+@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
+@*                 reload *@
+@*             </a> *@
+@*         </div> *@
+@*     </div> *@
+@* *@
+@*     <div id="reconnect-rejected"> *@
+@*         <div class="space-y-1"> *@
+@*             <div class="text-2xl">detected a networking issue</div> *@
+@*             <div>this is not a major issue</div> *@
+@*         </div> *@
+@*             to continue please reload *@
+@*         <div> *@
+@*             <a class="w-full" onclick="location.reload()"> *@
+@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
+@*                 reload *@
+@*             </a> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

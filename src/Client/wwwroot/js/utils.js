@@ -15,3 +15,7 @@ window.addEventListener("load", () => {
     (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
   );
 });
+
+window.toggleNav = () => {
+  document.getElementById('nav-left').classList.toggle('hidden')
+}
