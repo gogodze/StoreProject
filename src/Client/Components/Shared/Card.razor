@@ -2,7 +2,7 @@
     <div
         class="relative rounded-xl bg-background z-0 pt-4 text-muted-foreground hover:z-50 hover:scale-125 hover:shadow-xl hover:text-primary hover:cursor-pointer hover:transition-transform hover:duration-300 hover:ease-in-out">
         <div class="font-bold text-xl text-center mb-5">@Text</div>
-        <p class="text-base @(Description == null ? "hidden" : "")">
+        <p class="text-base @(Description is null ? "hidden" : "")">
             @Description
         </p>
         <img class="@(Image is null ? "hidden" : "")" src="@Image" alt="Image">

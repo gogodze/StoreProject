@@ -1,5 +1,5 @@
 ﻿<div class="sticky top-0 z-50 bg-background/10 backdrop-blur-md text-foreground border-b border-border">
-    <div class="container mx-auto flex items-center justify-between p-3">
+    <div class="container mx-auto flex items-center justify-between p-2">
         <div class="flex items-center justify-between w-full gap-4 lg:w-auto">
             <button class="lg:hidden p-2" onclick="window.toggleNav()">
                 <Blazicon Svg='GoogleMaterialRoundIcon.Menu.WithSize("150%")' class="text-primary"/>
@@ -10,9 +10,8 @@
                     <Blazicon Svg='GoogleMaterialRoundIcon.Home.WithSize("200%")'/>
                     <span>Home</span>
                 </a>
-                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">About us</a>
-                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">FAQ</a>
-                <a class="text-muted-foreground hover:text-primary transition-colors cursor-pointer">Contact</a>
+                <a href="/AboutUs" class="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">About us</a>
+                <a href="/Faq" class="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">FAQ</a>
             </div>
         </div>
 
@@ -27,11 +26,11 @@
             </button>
 
             <a href="/Login"
-               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+               class="shadow-md text-sm font-bold hidden lg:block py-2 px-3 border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
                 Login
             </a>
             <a href="/Register"
-               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
+               class="shadow-md text-sm hidden lg:block py-2 px-3 font-bold border border-border rounded-md text-secondary dark:bg-[#1aa65f] bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
                 Sign Up
             </a>
         </div>

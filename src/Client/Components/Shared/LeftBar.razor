@@ -1,0 +1,33 @@
+﻿@using Client.Components.Pages
+<div class="flex flex-col items-baseline justify-baseline m-3">
+    <h1>What are you looking for?</h1>
+    <div class="flex flex-col items-baseline justify-baseline">
+        @foreach</div>
+</div>
+
+
+@code
+{
+    private List<Category> _categories = new();
+
+    override async Task OnInitializedAsync()
+    {
+        // Example initialization
+        _categories = await LoadCategoriesAsync();
+    }
+
+    private Task<List<Category>> LoadCategoriesAsync()
+    {
+        // Simulated fetch; replace with actual logic
+        return Task.FromResult(new List<Category>
+        {
+            new Category { Name = "Category 1" },
+            new Category { Name = "Category 2" }
+        });
+    }
+}
+
+public class Category
+{
+public string Name { get; set; }
+}
