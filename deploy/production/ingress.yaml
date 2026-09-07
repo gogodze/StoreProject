@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - store.gogodze.dev
-      secretName: storeproject-tls
+      secretName: gogodze-tls
 
   rules:
     - host: store.gogodze.dev
