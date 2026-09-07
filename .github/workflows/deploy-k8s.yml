@@ -1,0 +1,160 @@
+name: "[🛠️] Build and promote - production"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "deploy/production/**"
+
+concurrency:
+  group: storeproject-production-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NETCORE_VERSION: "9.0.x"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOCKER_IMAGE_NAME: gogodze/store-staging
+
+jobs:
+  test:
+    name: "[🧪] Test"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "[🛎️] Checkout"
+        uses: actions/checkout@v4
+
+      - name: "[🏢] Setup .NET"
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.NETCORE_VERSION }}
+
+      - name: "[🔃] Load NuGet cache"
+        id: nuget-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: "[✅] Cache status"
+        run: |
+          echo "Cache hit: ${{ steps.nuget-cache.outputs.cache-hit }}"
+
+      - name: "[📦] Restore packages"
+        run: dotnet restore --verbosity minimal
+
+      - name: "[🧪] Run tests"
+        run: dotnet test --no-restore --verbosity minimal
+
+  build-and-push:
+    name: "[🐳] Build and push image"
+    runs-on: ubuntu-latest
+    needs: test
+
+    outputs:
+      digest: ${{ steps.build-push.outputs.digest }}
+
+    steps:
+      - name: "[🛎️] Checkout"
+        uses: actions/checkout@v4
+
+      - name: "[🐳] Setup Buildx"
+        uses: docker/setup-buildx-action@v3
+
+      - name: "[🔐] Login to Docker Hub"
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: "[📦] Build and push"
+        id: build-push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ env.DOCKER_IMAGE_NAME }}:latest
+            ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  promote-production:
+    name: "[🚀] Promote production image"
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    permissions:
+      contents: write
+
+    env:
+      IMAGE_DIGEST: ${{ needs.build-and-push.outputs.digest }}
+
+    steps:
+      - name: "[🛎️] Checkout"
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: "[📌] Pin production image digest"
+        run: |
+          set -euo pipefail
+
+          FILE="deploy/production/deployment.yaml"
+          IMAGE="${DOCKER_IMAGE_NAME}@${IMAGE_DIGEST}"
+
+          COUNT="$(grep -c "image: ${DOCKER_IMAGE_NAME}" "$FILE")"
+
+          if [ "$COUNT" -ne 1 ]; then
+            echo "Expected exactly 1 StoreProject image reference in $FILE, found $COUNT."
+            exit 1
+          fi
+
+          sed -i \
+            "s#image: ${DOCKER_IMAGE_NAME}[^[:space:]]*#image: ${IMAGE}#g" \
+            "$FILE"
+
+          echo "Pinned image:"
+          grep -n "image:" "$FILE"
+
+      - name: "[✅] Verify image pin"
+        run: |
+          set -euo pipefail
+
+          FILE="deploy/production/deployment.yaml"
+          IMAGE="${DOCKER_IMAGE_NAME}@${IMAGE_DIGEST}"
+
+          COUNT="$(grep -Fc "image: ${IMAGE}" "$FILE")"
+
+          if [ "$COUNT" -ne 1 ]; then
+            echo "Expected exactly 1 pinned StoreProject image reference, found $COUNT."
+            exit 1
+          fi
+
+      - name: "[📝] Commit desired state"
+        run: |
+          set -euo pipefail
+
+          FILE="deploy/production/deployment.yaml"
+
+          if git diff --quiet -- "$FILE"; then
+            echo "Deployment already points to this image digest."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "$FILE"
+          git commit -m "Deploy StoreProject ${GITHUB_SHA::7}"
+          git push origin HEAD:master
