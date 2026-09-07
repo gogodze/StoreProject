@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storeproject
+  namespace: apps
+spec:
+  replicas: 1
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: storeproject
+
+  template:
+    metadata:
+      labels:
+        app: storeproject
+
+    spec:
+      automountServiceAccountToken: false
+
+      nodeSelector:
+        role: worker
+
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+
+        fsGroup: 1654
+        fsGroupChangePolicy: OnRootMismatch
+
+      containers:
+        - name: storeproject
+          image: gogodze/store-staging:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - name: http
+              containerPort: 8080
+
+          env:
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"
+
+            - name: DB__PATH
+              value: /data/db.db
+
+            - name: DATAPROTECTION__KEYS__PATH
+              value: /data/dataprotection-keys
+
+            - name: JWT__ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: storeproject-secrets
+                  key: JWT__ISSUER
+
+            - name: JWT__AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: storeproject-secrets
+                  key: JWT__AUDIENCE
+
+            - name: JWT__KEY
+              valueFrom:
+                secretKeyRef:
+                  name: storeproject-secrets
+                  key: JWT__KEY
+
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1654
+            runAsGroup: 1654
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: storeproject-data

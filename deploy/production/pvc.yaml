@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storeproject-data
+  namespace: apps
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  storageClassName: longhorn-2replica
+
+  resources:
+    requests:
+      storage: 5Gi

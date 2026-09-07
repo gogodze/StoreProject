@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: storeproject
+  namespace: apps
+spec:
+  ingressClassName: traefik
+
+  tls:
+    - hosts:
+        - store.gogodze.dev
+      secretName: storeproject-tls
+
+  rules:
+    - host: store.gogodze.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: storeproject
+                port:
+                  number: 80
