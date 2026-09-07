@@ -9,19 +9,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj"/>
-        <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
+        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazicons" Version="2.1.30"/>
-        <PackageReference Include="Blazicons.GoogleMaterialDesign" Version="2.1.15"/>
-        <PackageReference Include="BlazorAnimate" Version="3.0.0"/>
-        <PackageReference Include="Blazored.Toast" Version="4.2.1"/>
-        <PackageReference Include="dotenv.net" Version="3.2.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.6"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+        <PackageReference Include="Blazicons" Version="2.1.30" />
+        <PackageReference Include="Blazicons.GoogleMaterialDesign" Version="2.1.15" />
+        <PackageReference Include="BlazorAnimate" Version="3.0.0" />
+        <PackageReference Include="Blazored.Toast" Version="4.2.1" />
+        <PackageReference Include="dotenv.net" Version="3.2.1" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.19">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
