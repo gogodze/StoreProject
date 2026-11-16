@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <!-- .NET 10 serves blazor.web.js as a static web asset; force inclusion for Docker/publish. -->
+        <RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
     </PropertyGroup>
 
     <ItemGroup>
