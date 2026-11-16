@@ -1,5 +1,6 @@
-﻿
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
+@implements IDisposable
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="10"
@@ -8,10 +9,60 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"/>
 
+<div class="min-h-screen flex flex-col">
+    <TopBar/>
+    <main class="flex-1 w-full flex flex-col">
+        <div @key="_pageKey" class="page-transition">
+            <Animate Animation="Animations.FadeIn"
+                     Duration="TimeSpan.FromMilliseconds(400)"
+                     Easing="Easings.EaseOutCubic"
+                     Once="true">
+                <div class="page-transition">
+                    @Body
+                </div>
+            </Animate>
+        </div>
+    </main>
+    @if (!HideFooter)
+    {
+        <Footer/>
+    }
+</div>
 
-<TopBar/>
-@Body
-<Footer/>
+<DemoNotice/>
+<CookieNotice/>
+
+@code {
+    private bool HideFooter { get; set; }
+    private string _pageKey = "";
+
+    protected override void OnInitialized()
+    {
+        _pageKey = Nav.ToBaseRelativePath(Nav.Uri);
+        Nav.LocationChanged += OnLocationChanged;
+        UpdateFooterVisibility();
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _pageKey = Nav.ToBaseRelativePath(e.Location);
+        UpdateFooterVisibility();
+        StateHasChanged();
+    }
+
+    private void UpdateFooterVisibility()
+    {
+        var path = Nav.ToBaseRelativePath(Nav.Uri).Split('?', '#')[0];
+        HideFooter = path.Equals("Login", StringComparison.OrdinalIgnoreCase)
+                     || path.Equals("LogIn", StringComparison.OrdinalIgnoreCase)
+                     || path.Equals("Register", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+}
 
 
 @* <div id="blazor-error-ui" data-nosnippet> *@

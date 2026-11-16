@@ -5,5 +5,8 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.5"
+  },
+  "optionalDependencies": {
+    "@parcel/watcher-linux-x64-glibc": "^2.6.0"
   }
 }

@@ -1,0 +1,50 @@
+@inject IJSRuntime Js
+
+@if (_visible)
+{
+    <div class="fixed bottom-4 left-4 z-[90] max-w-sm w-[calc(100%-2rem)]">
+        <Animate Animation="Animations.FadeUp" Duration="TimeSpan.FromMilliseconds(450)">
+            <div role="dialog"
+                 aria-live="polite"
+                 aria-labelledby="cookie-notice-title"
+                 class="rounded-md border border-border bg-background p-4 shadow-xl flex flex-col gap-3">
+                <h2 id="cookie-notice-title" class="text-lg font-bold text-foreground">Cookies</h2>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                    We use cookies to keep you signed in and improve this demo. By continuing, you accept their use.
+                </p>
+                <button type="button"
+                        class="h-9 self-start rounded-md border border-border bg-[#108a37] px-4 text-sm font-bold text-[#f3f7f4] hover:bg-[#1aa65f] transition-colors duration-200"
+                        @onclick="AcceptAsync">
+                    Accept
+                </button>
+            </div>
+        </Animate>
+    </div>
+}
+
+@code {
+    private bool _visible;
+    private bool _checked;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || _checked)
+        {
+            return;
+        }
+
+        _checked = true;
+        var accepted = await Js.InvokeAsync<bool>("cookieNotice.isAccepted");
+        if (!accepted)
+        {
+            _visible = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AcceptAsync()
+    {
+        await Js.InvokeVoidAsync("cookieNotice.accept");
+        _visible = false;
+    }
+}

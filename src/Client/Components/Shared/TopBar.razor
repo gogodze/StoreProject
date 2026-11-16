@@ -5,7 +5,7 @@
                 <Blazicon Svg='GoogleMaterialRoundIcon.Menu.WithSize("150%")' class="text-primary"/>
             </button>
             <div id="nav-left"
-                 class="w-full hidden gap-2 mt-3 flex-col lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-4 lg:mt-0 lg:w-auto text-md">
+                 class="w-full hidden gap-3 mt-3 flex-col lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-5 lg:mt-0 lg:w-auto text-[15px]">
                 <NavLink href="/" Match="NavLinkMatch.All"
                          class="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                          ActiveClass="!text-primary font-bold">
@@ -30,9 +30,9 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3 text-[15px]">
             <button
-                class="relative p-2 mr-2 flex items-center justify-center rounded-md text-muted-foreground hover:text-primary hover:bg-primary-foreground transition-colors"
+                class="relative p-2 flex items-center justify-center rounded-md text-muted-foreground hover:text-primary hover:bg-primary-foreground transition-colors"
                 onclick="window.toggleTheme()">
                 <Blazicon Svg='GoogleMaterialRoundIcon.DarkMode.WithSize("110%")'
                           class="absolute rotate-0 dark:rotate-90 opacity-100 dark:opacity-0"/>
@@ -41,11 +41,11 @@
             </button>
 
             <a href="/Login"
-               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+               class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
                 Login
             </a>
             <a href="/Register"
-               class="shadow-md hidden lg:block p-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
+               class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
                 Sign Up
             </a>
         </div>

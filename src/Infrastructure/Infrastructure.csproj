@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -12,12 +12,12 @@
 
     <ItemGroup>
         <PackageReference Include="Klean.EntityFrameworkCore.DataProtection" Version="1.2.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.19" />
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.19" />
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="9.0.19" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.19" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.19" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.19">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="10.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="10.0.15" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.15" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.15" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.15">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
