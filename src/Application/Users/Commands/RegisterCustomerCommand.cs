@@ -41,6 +41,11 @@ public class RegisterCustomerCommandValidator : AbstractValidator<RegisterCustom
             .NotEmpty()
             .EmailAddress()
             .MaximumLength(50);
+
+        RuleFor(x => x.ConfirmPassword)
+            .NotEmpty()
+            .Equal(x => x.Password)
+            .WithMessage("Passwords do not match");
     }
 }
 
