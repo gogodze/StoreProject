@@ -228,3 +228,30 @@ h1:focus {
   font-size: 1.25rem;
   line-height: 1;
 }
+
+@keyframes notice-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes notice-zoom-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes notice-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.notice-fade-in {
+  animation: notice-fade-in 0.35s ease-out both;
+}
+
+.notice-zoom-in {
+  animation: notice-zoom-in 0.4s cubic-bezier(.05, .89, .25, 1.02) both;
+}
+
+.notice-fade-up {
+  animation: notice-fade-up 0.4s ease-out both;
+}
