@@ -20,14 +20,8 @@ window.toggleNav = () => {
   document.getElementById('nav-left').classList.toggle('hidden')
 }
 
-window.demoNotice = {
-  key: "demoNoticeDismissed",
-  isDismissed: () => localStorage.getItem(window.demoNotice.key) === "true",
-  dismiss: () => localStorage.setItem(window.demoNotice.key, "true"),
-};
+window.isDemoNoticeDismissed = () => localStorage.getItem("demoNoticeDismissed") === "true";
+window.dismissDemoNotice = () => localStorage.setItem("demoNoticeDismissed", "true");
 
-window.cookieNotice = {
-  key: "cookieNoticeAccepted",
-  isAccepted: () => localStorage.getItem(window.cookieNotice.key) === "true",
-  accept: () => localStorage.setItem(window.cookieNotice.key, "true"),
-};
+window.isCookieNoticeAccepted = () => localStorage.getItem("cookieNoticeAccepted") === "true";
+window.acceptCookieNotice = () => localStorage.setItem("cookieNoticeAccepted", "true");
