@@ -1,0 +1,206 @@
+.components-reconnect-first-attempt-visible,
+.components-reconnect-repeated-attempt-visible,
+.components-reconnect-failed-visible,
+.components-pause-visible,
+.components-resume-failed-visible,
+.components-rejoining-animation {
+    display: none;
+}
+
+#components-reconnect-modal.components-reconnect-show .components-reconnect-first-attempt-visible,
+#components-reconnect-modal.components-reconnect-show .components-rejoining-animation,
+#components-reconnect-modal.components-reconnect-paused .components-pause-visible,
+#components-reconnect-modal.components-reconnect-resume-failed .components-resume-failed-visible,
+#components-reconnect-modal.components-reconnect-retrying,
+#components-reconnect-modal.components-reconnect-retrying .components-reconnect-repeated-attempt-visible,
+#components-reconnect-modal.components-reconnect-retrying .components-rejoining-animation,
+#components-reconnect-modal.components-reconnect-failed,
+#components-reconnect-modal.components-reconnect-failed .components-reconnect-failed-visible {
+    display: block;
+}
+
+#components-reconnect-modal.components-reconnect-failed .store-reconnect-secondary,
+#components-reconnect-modal.components-reconnect-resume-failed .store-reconnect-secondary {
+    display: inline-flex;
+}
+
+#components-reconnect-modal {
+    background-color: var(--background);
+    color: var(--foreground);
+    width: min(22rem, calc(100vw - 2rem));
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 0.625rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
+    animation: components-reconnect-modal-fadeOutOpacity 0.5s both;
+}
+
+#components-reconnect-modal[open] {
+    animation: components-reconnect-modal-slideUp 1.2s cubic-bezier(.05, .89, .25, 1.02) 0.15s,
+        components-reconnect-modal-fadeInOpacity 0.4s ease-in-out 0.15s;
+    animation-fill-mode: both;
+}
+
+#components-reconnect-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    animation: components-reconnect-modal-fadeInOpacity 0.4s ease-in-out;
+    opacity: 1;
+}
+
+@keyframes components-reconnect-modal-slideUp {
+    0% {
+        transform: translateY(24px) scale(0.96);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes components-reconnect-modal-fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes components-reconnect-modal-fadeOutOpacity {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.components-reconnect-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.75rem 1.5rem 1.5rem;
+}
+
+.store-reconnect-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #108a37;
+}
+
+.store-reconnect-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--foreground);
+}
+
+.store-reconnect-copy {
+    margin: 0;
+    text-align: center;
+    color: var(--muted-foreground);
+    line-height: 1.45;
+    font-size: 0.95rem;
+}
+
+#components-reconnect-modal p {
+    margin: 0;
+    text-align: center;
+}
+
+.store-reconnect-button {
+    border: 1px solid var(--border);
+    background-color: #108a37;
+    color: #f3f7f4;
+    padding: 0.55rem 1.35rem;
+    border-radius: 0.375rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.store-reconnect-button:hover {
+    background-color: #1aa65f;
+}
+
+.store-reconnect-button:active {
+    background-color: #0d7a30;
+}
+
+.store-reconnect-secondary {
+    display: none;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--foreground);
+    padding: 0.45rem 1.1rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.store-reconnect-secondary:hover {
+    background-color: var(--muted);
+}
+
+.components-rejoining-animation {
+    position: relative;
+    width: 72px;
+    height: 72px;
+}
+
+.components-rejoining-animation div {
+    position: absolute;
+    border: 3px solid #21bf73;
+    opacity: 1;
+    border-radius: 50%;
+    animation: components-rejoining-animation 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.components-rejoining-animation div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes components-rejoining-animation {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}

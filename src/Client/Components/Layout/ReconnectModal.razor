@@ -1,0 +1,61 @@
+<script type="module" src="@Assets["Components/Layout/ReconnectModal.razor.js"]"></script>
+
+<dialog id="components-reconnect-modal" data-nosnippet>
+    <div class="components-reconnect-container">
+        <div class="store-reconnect-badge" aria-hidden="true">Store</div>
+
+        <div class="components-rejoining-animation" aria-hidden="true">
+            <div></div>
+            <div></div>
+        </div>
+
+        <h2 class="store-reconnect-title components-reconnect-first-attempt-visible">
+            Rejoining the server
+        </h2>
+        <p class="components-reconnect-first-attempt-visible store-reconnect-copy">
+            Connection dropped for a moment. We’re bringing you back…
+        </p>
+
+        <h2 class="store-reconnect-title components-reconnect-repeated-attempt-visible">
+            Still reconnecting
+        </h2>
+        <p class="components-reconnect-repeated-attempt-visible store-reconnect-copy">
+            Rejoin failed… trying again in
+            <span id="components-seconds-to-next-attempt"></span> seconds.
+        </p>
+
+        <h2 class="store-reconnect-title components-reconnect-failed-visible">
+            Couldn’t rejoin
+        </h2>
+        <p class="components-reconnect-failed-visible store-reconnect-copy">
+            Please retry or reload the page to continue shopping.
+        </p>
+        <button id="components-reconnect-button" class="components-reconnect-failed-visible store-reconnect-button">
+            Retry
+        </button>
+
+        <h2 class="store-reconnect-title components-pause-visible">
+            Session paused
+        </h2>
+        <p class="components-pause-visible store-reconnect-copy">
+            The session has been paused by the server.
+        </p>
+
+        <h2 class="store-reconnect-title components-resume-failed-visible">
+            Resume failed
+        </h2>
+        <p class="components-resume-failed-visible store-reconnect-copy">
+            Failed to resume the session. Please retry or reload the page.
+        </p>
+        <button id="components-resume-button"
+                class="components-pause-visible components-resume-failed-visible store-reconnect-button">
+            Resume
+        </button>
+
+        <button type="button"
+                class="components-reconnect-failed-visible components-resume-failed-visible store-reconnect-secondary"
+                onclick="location.reload()">
+            Reload page
+        </button>
+    </div>
+</dialog>

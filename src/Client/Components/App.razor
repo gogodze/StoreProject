@@ -14,15 +14,18 @@
 
 <body>
 <Routes @rendermode="InteractiveServer"/>
+<ReconnectModal/>
 <script src="js/utils.js"></script>
 <script src="_content/BlazorAnimate/blazorAnimateInterop.js"></script>
 <script src="_framework/blazor.web.js"></script>
 
-<div id="blazor-error-ui" class="bg-background text-primary">
-    <a href="" class="reload">reload</a>
-    <a class="dismiss">&times;</a>
+<div id="blazor-error-ui" data-nosnippet>
+    <div class="blazor-error-panel">
+        <span>Something went wrong.</span>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss" aria-label="Dismiss">&times;</a>
+    </div>
 </div>
-
 
 </body>
 
