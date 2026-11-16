@@ -5,14 +5,28 @@
                 <Blazicon Svg='GoogleMaterialRoundIcon.Menu.WithSize("150%")' class="text-primary"/>
             </button>
             <div id="nav-left"
-                 class="w-full hidden gap-2 mt-3 flex-col lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-4 lg:mt-0 lg:w-auto text-primary font-bold text-md">
-                <a href="/" class="flex items-center gap-2 text-primary font-bold text-md">
+                 class="w-full hidden gap-2 mt-3 flex-col lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-4 lg:mt-0 lg:w-auto text-md">
+                <NavLink href="/" Match="NavLinkMatch.All"
+                         class="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                         ActiveClass="!text-primary font-bold">
                     <Blazicon Svg='GoogleMaterialRoundIcon.Home.WithSize("200%")'/>
                     <span>Home</span>
-                </a>
-                <a href="/About" class="text-muted-foreground hover:text-primary transition-colors">About us</a>
-                <a href="/FAQ" class="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
-                <a href="/Contact" class="text-muted-foreground hover:text-primary transition-colors">Contact</a>
+                </NavLink>
+                <NavLink href="/About"
+                         class="text-muted-foreground hover:text-primary transition-colors"
+                         ActiveClass="!text-primary font-bold">
+                    About us
+                </NavLink>
+                <NavLink href="/FAQ"
+                         class="text-muted-foreground hover:text-primary transition-colors"
+                         ActiveClass="!text-primary font-bold">
+                    FAQ
+                </NavLink>
+                <NavLink href="/Contact"
+                         class="text-muted-foreground hover:text-primary transition-colors"
+                         ActiveClass="!text-primary font-bold">
+                    Contact
+                </NavLink>
             </div>
         </div>
 
