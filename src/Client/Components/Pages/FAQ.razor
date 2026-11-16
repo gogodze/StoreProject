@@ -1,0 +1,50 @@
+@page "/FAQ"
+
+<PageTitle>FAQ</PageTitle>
+
+<div class="w-full max-w-screen-xl mx-auto px-4 pt-10 pb-16 flex flex-col gap-8">
+    <div class="flex flex-col gap-3 max-w-2xl">
+        <h1 class="text-4xl font-bold">FAQ</h1>
+        <p class="text-muted-foreground text-lg">
+            Quick answers to common questions about shopping with us.
+        </p>
+    </div>
+
+    <div class="flex flex-col gap-4 max-w-3xl">
+        @foreach (var item in Items)
+        {
+            <details class="group border border-border rounded-md shadow-md p-4 open:bg-primary-foreground/30">
+                <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-bold text-lg">
+                    <span>@item.Question</span>
+                    <Blazicon Svg="GoogleMaterialFilledIcon.ExpandMore" class="text-muted-foreground group-open:rotate-180 transition-transform"/>
+                </summary>
+                <p class="mt-3 text-muted-foreground leading-relaxed">@item.Answer</p>
+            </details>
+        }
+    </div>
+
+    <p class="text-muted-foreground">
+        Still need help?
+        <a href="/Contact" class="text-[#108a37] font-bold hover:underline underline-offset-4">Contact us</a>
+    </p>
+</div>
+
+@code {
+    private static readonly FaqItem[] Items =
+    [
+        new("How do I create an account?",
+            "Open Sign Up from the top bar, enter your name, email, and password, then submit the form. You can log in right after registration."),
+        new("What payment methods do you accept?",
+            "We support major cards and local payment options at checkout. Available methods are shown before you place an order."),
+        new("How long does delivery take?",
+            "Most orders in Tbilisi arrive within 1–2 business days. Deliveries elsewhere in Georgia usually take 2–5 business days."),
+        new("Can I return a product?",
+            "Yes. Unused items in original packaging can be returned within 14 days of delivery. Contact support to start a return."),
+        new("How do I track my order?",
+            "After you place an order, tracking details are sent to your email. You can also check status from your cabinet once signed in."),
+        new("Do you ship outside Georgia?",
+            "Right now we focus on delivery within Georgia. International shipping may be added later.")
+    ];
+
+    private sealed record FaqItem(string Question, string Answer);
+}

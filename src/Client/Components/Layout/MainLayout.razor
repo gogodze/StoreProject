@@ -1,5 +1,6 @@
-﻿
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
+@implements IDisposable
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="10"
@@ -8,65 +9,57 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"/>
 
+<div class="min-h-screen flex flex-col">
+    <TopBar/>
+    <main class="flex-1 w-full flex flex-col">
+        <div @key="_pageKey" class="page-transition">
+            <Animate Animation="Animations.FadeIn"
+                     Duration="TimeSpan.FromMilliseconds(400)"
+                     Easing="Easings.EaseOutCubic"
+                     Once="true">
+                <div class="page-transition">
+                    @Body
+                </div>
+            </Animate>
+        </div>
+    </main>
+    @if (!HideFooter)
+    {
+        <Footer/>
+    }
+</div>
 
-<TopBar/>
-@Body
-<Footer/>
+<DemoNotice/>
+<CookieNotice/>
 
+@code {
+    private bool HideFooter { get; set; }
+    private string _pageKey = "";
 
-@* <div id="blazor-error-ui" data-nosnippet> *@
-@*     An unhandled error has occurred. *@
-@*     <a href="." class="reload">Reload</a> *@
-@*     <span class="dismiss">🗙</span> *@
-@* </div> *@
-@* *@
-@* <div id="components-reconnect-modal"> *@
-@*     <div id="reconnect-show"> *@
-@*         <div class="space-y-1"> *@
-@*             <div class="text-2xl">detected a networking issue</div> *@
-@*             <div>this is not a major issue</div> *@
-@*         </div> *@
-@*             to continue please reload *@
-@*         <div> *@
-@*             <a class="w-full" onclick="location.reload()"> *@
-@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
-@*                 reload *@
-@*             </a> *@
-@*         </div> *@
-@*     </div> *@
-@* *@
-@*     <div id="reconnect-hide"> *@
-@*         <div class="space-y-1"> *@
-@*             <div class="text-2xl">Success</div> *@
-@*         </div> *@
-@*             Server connection restored *@
-@*     </div> *@
-@* *@
-@*     <div id="reconnect-failed"> *@
-@*         <div class="space-y-1"> *@
-@*             <div class="text-2xl">detected a networking issue</div> *@
-@*             <div>this is not a major issue</div> *@
-@*         </div> *@
-@*             to continue please reload *@
-@*         <div> *@
-@*             <a class="w-full" onclick="window.Blazor.reconnect()"> *@
-@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
-@*                 reload *@
-@*             </a> *@
-@*         </div> *@
-@*     </div> *@
-@* *@
-@*     <div id="reconnect-rejected"> *@
-@*         <div class="space-y-1"> *@
-@*             <div class="text-2xl">detected a networking issue</div> *@
-@*             <div>this is not a major issue</div> *@
-@*         </div> *@
-@*             to continue please reload *@
-@*         <div> *@
-@*             <a class="w-full" onclick="location.reload()"> *@
-@*                 <Blazicon Svg="@GoogleMaterialFilledIcon.Refresh" class="size-6"/> *@
-@*                 reload *@
-@*             </a> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
+    protected override void OnInitialized()
+    {
+        _pageKey = Nav.ToBaseRelativePath(Nav.Uri);
+        Nav.LocationChanged += OnLocationChanged;
+        UpdateFooterVisibility();
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _pageKey = Nav.ToBaseRelativePath(e.Location);
+        UpdateFooterVisibility();
+        StateHasChanged();
+    }
+
+    private void UpdateFooterVisibility()
+    {
+        var path = Nav.ToBaseRelativePath(Nav.Uri).Split('?', '#')[0];
+        HideFooter = path.Equals("Login", StringComparison.OrdinalIgnoreCase)
+                     || path.Equals("LogIn", StringComparison.OrdinalIgnoreCase)
+                     || path.Equals("Register", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+}

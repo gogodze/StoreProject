@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
@@ -20,8 +20,7 @@
         <PackageReference Include="BlazorAnimate" Version="3.0.0" />
         <PackageReference Include="Blazored.Toast" Version="4.2.1" />
         <PackageReference Include="dotenv.net" Version="3.2.1" />
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.19" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.19">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.15">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

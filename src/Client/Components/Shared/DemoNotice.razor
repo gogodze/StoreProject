@@ -1,0 +1,53 @@
+@inject IJSRuntime Js
+
+@if (_visible)
+{
+    <div class="fixed inset-0 z-[100] flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @onclick="DismissAsync"></div>
+
+        <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromMilliseconds(450)">
+            <div role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="demo-notice-title"
+                 class="relative z-[101] w-full max-w-md rounded-md border border-border bg-background p-6 shadow-xl flex flex-col gap-4">
+                <h2 id="demo-notice-title" class="text-2xl font-bold text-foreground">Demo website</h2>
+                <p class="text-muted-foreground leading-relaxed">
+                    This is a demo storefront. Features may be incomplete, data can reset, and nothing here is a real checkout.
+                </p>
+                <button type="button"
+                        class="mt-2 h-10 rounded-md border border-border bg-[#108a37] px-4 font-bold text-[#f3f7f4] hover:bg-[#1aa65f] transition-colors duration-200"
+                        @onclick="DismissAsync">
+                    Got it
+                </button>
+            </div>
+        </Animate>
+    </div>
+}
+
+@code {
+    private bool _visible;
+    private bool _checked;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || _checked)
+        {
+            return;
+        }
+
+        _checked = true;
+        var dismissed = await Js.InvokeAsync<bool>("demoNotice.isDismissed");
+        if (!dismissed)
+        {
+            _visible = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task DismissAsync()
+    {
+        await Js.InvokeVoidAsync("demoNotice.dismiss");
+        _visible = false;
+    }
+
+}

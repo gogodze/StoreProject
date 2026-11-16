@@ -1,11 +1,73 @@
+# Build
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
-.idea
-.git
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+publish/
+out/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# Node / frontend
+**/node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment & secrets
 .env
+.env.*
+!.env.example
+**/appsettings.*.local.json
+**/secrets.json
+
+# Local databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+store.db
 dbo.db
 db.db
+
+# ASP.NET Data Protection keys
+dataprotection-keys/
+**/dataprotection-keys/
+
+# IDE / editor
+.idea/
+.vs/
+*.user
+*.userosscache
+*.suo
+*.rsuser
+*.sln.docstates
+riderModule.iml
+_ReSharper.Caches/
+*.DotSettings.user
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test / coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Misc local
 .aspdotnet
+*.log
+*.tmp
+*.temp
+*.swp
+*~

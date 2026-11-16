@@ -1,33 +1,37 @@
-﻿<footer class="border-t mt-8 w-full flex flex-col sm:flex-row sm:justify-evenly sm:items-start gap-6 p-4">
-    <form class="flex flex-col gap-2 m-2 sm:max-w-xs">
-        <h1 class="text-xl font-bold">Newsletter</h1>
-        <label for="Password" class="max-w-full text-muted-foreground text-sm">
-            Enter your email to receive notifications about product updates and our newsletter.
-        </label>
-        <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border w-full" id="Password" name="email"
-               placeholder="name@example.com"/>
-        <button type="submit"
-                class="w-full mt-3 flex justify-center h-9 items-center gap-1 text-primary rounded-md shadow-md border border-border bg-[#108a37] hover:bg-[#1aa65f] transition-colors duration-200">
-            Subscribe
-        </button>
-    </form>
+﻿<footer class="border-t mt-auto w-full">
+    <div class="mx-auto max-w-screen-xl w-full px-4 pt-12 pb-8 flex flex-row flex-wrap justify-between items-start gap-12 lg:gap-24">
+        <form class="flex flex-col gap-2 items-start text-left w-56 max-w-full shrink-0">
+            <h1 class="text-xl font-bold">Newsletter</h1>
+            <label for="newsletter-email" class="text-muted-foreground text-sm leading-snug">
+                Product updates and news.
+            </label>
+            <input type="email" class="pl-3 h-8 rounded-md border border-border w-56 max-w-full text-sm" id="newsletter-email"
+                   name="email" placeholder="name@example.com"/>
+            <button type="submit"
+                    class="w-56 max-w-full mt-1 flex justify-center h-8 items-center text-sm text-[#f3f7f4] rounded-md border border-border bg-[#108a37] hover:bg-[#1aa65f] transition-colors duration-200">
+                Subscribe
+            </button>
+        </form>
 
-    <div class="flex flex-col items-center gap-2 m-2 sm:max-w-xs text-center sm:text-left">
-        <h1 class="text-xl font-bold">Our partners</h1>
-        <ul class="flex flex-col gap-2 text-muted-foreground underline underline-offset-5">
-            <li><a href="https://amazon.com" target="_blank" rel="noopener noreferrer">Amazon.com</a></li>
-            <li><a href="https://alibaba.com" target="_blank" rel="noopener noreferrer">Alibaba.com</a></li>
-            <li><a href="https://aliexpress.com" target="_blank" rel="noopener noreferrer">Aliexpress.com</a></li>
-            <li><a href="https://veli.store" target="_blank" rel="noopener noreferrer">Veli.store</a></li>
-        </ul>
-    </div>
+        <div class="flex flex-col gap-2 items-start text-left shrink-0">
+            <h1 class="text-xl font-bold">Our partners</h1>
+            <ul class="flex flex-col gap-1.5 text-sm text-muted-foreground">
+                <li><a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Amazon.com</a></li>
+                <li><a href="https://alibaba.com" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Alibaba.com</a></li>
+                <li><a href="https://aliexpress.com" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Aliexpress.com</a></li>
+                <li><a href="https://veli.store" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Veli.store</a></li>
+            </ul>
+        </div>
 
-    <div class="flex flex-col gap-2 m-2 sm:max-w-xs text-center sm:text-left">
-        <h1 class="text-xl font-bold">Contact</h1>
-        <ul class="flex flex-col gap-2 text-muted-foreground underline underline-offset-4">
-            <li><a href="mailto:david@gogodze.dev">developer: david@gogodze.dev</a></li>
-            <li><a href="mailto:store@gogodze.dev">company mail: store@gogodze.dev</a></li>
-            <li><span>Street: 13, Ilo Mosashvili Street Vake, Tbilisi 0162</span></li>
-        </ul>
+        <div class="flex flex-col gap-2 items-start text-left max-w-xs shrink-0">
+            <h1 class="text-xl font-bold">Contact</h1>
+            <ul class="flex flex-col gap-1.5 text-sm text-muted-foreground">
+                <li><a href="/About" class="hover:underline underline-offset-4">About us</a></li>
+                <li><a href="/FAQ" class="hover:underline underline-offset-4">FAQ</a></li>
+                <li><a href="/Contact" class="hover:underline underline-offset-4">Contact</a></li>
+                <li><a href="mailto:store@gogodze.dev" class="hover:underline underline-offset-4">store@gogodze.dev</a></li>
+                <li class="leading-snug">13 Ilo Mosashvili St, Vake, Tbilisi</li>
+            </ul>
+        </div>
     </div>
 </footer>

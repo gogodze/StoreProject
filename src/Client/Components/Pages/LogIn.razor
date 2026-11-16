@@ -6,20 +6,18 @@
 @inject IMediator Mediator
 @inject IJwtGenerator JwtGenerator
 
-<div class="w-full h-auto flex flex-col justify-center items-center pt-10">
-    <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center">
+<div class="flex-1 w-full flex flex-col justify-center items-center px-4 py-10">
+    <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center w-full max-w-lg">
         <h1 class="text-bold text-4xl">Welcome back</h1>
         <h2 class="text-muted-foreground">Log in to your account</h2>
 
         <form class="flex flex-col space-y-2 w-96 mt-4" @onsubmit="OnValidSubmit" @onsubmit:preventDefault>
             <div id="sso-buttons" class="flex w-full items-center justify-evenly gap-10">
                 <a class="w-full flex justify-center items-center h-9 px-3 py-2 rounded-md border border-border hover:bg-gray-100 transition-colors duration-200">
-                    <img alt="google" class="h-6 w-6  mx-auto"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/24px-Google_%22G%22_logo.svg.png">
+                    <img alt="Google" class="h-6 w-6 mx-auto" src="Images/Auth/google.svg"/>
                 </a>
                 <a class="w-full flex justify-center items-center h-9 px-3 py-2 rounded-md border border-border hover:bg-gray-100 transition-colors duration-200">
-                    <img alt="microsoft" class="h-6 w-6  mx-auto"
-                         src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"/>
+                    <img alt="Microsoft" class="h-6 w-6 mx-auto" src="Images/Auth/microsoft.svg"/>
                 </a>
             </div>
             <h3 class="m-auto text-muted-foreground">Or continue with email</h3>
