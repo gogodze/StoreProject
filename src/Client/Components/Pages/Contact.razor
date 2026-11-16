@@ -1,0 +1,72 @@
+@page "/Contact"
+@inject IToastService Toast
+
+<PageTitle>Contact</PageTitle>
+
+<div class="w-full max-w-screen-xl mx-auto px-4 pt-10 pb-16 flex flex-col lg:flex-row gap-10 lg:gap-16">
+    <div class="flex flex-col gap-6 flex-1 max-w-xl">
+        <div class="flex flex-col gap-3">
+            <h1 class="text-4xl font-bold">Contact</h1>
+            <p class="text-muted-foreground text-lg">
+                Questions about an order or the shop? Reach out — we usually reply within one business day.
+            </p>
+        </div>
+
+        <ul class="flex flex-col gap-3 text-muted-foreground">
+            <li>
+                <span class="font-bold text-foreground">Developer: </span>
+                <a href="mailto:david@gogodze.dev" class="underline underline-offset-4 hover:text-primary">david@gogodze.dev</a>
+            </li>
+            <li>
+                <span class="font-bold text-foreground">Company: </span>
+                <a href="mailto:store@gogodze.dev" class="underline underline-offset-4 hover:text-primary">store@gogodze.dev</a>
+            </li>
+            <li>
+                <span class="font-bold text-foreground">Address: </span>
+                13, Ilo Mosashvili Street, Vake, Tbilisi 0162
+            </li>
+        </ul>
+    </div>
+
+    <form class="flex flex-col gap-3 flex-1 max-w-md border border-border rounded-md shadow-md p-6" @onsubmit="OnSubmit"
+          @onsubmit:preventDefault>
+        <h2 class="text-xl font-bold">Send a message</h2>
+        <label for="contact-name">Name</label>
+        <input id="contact-name" name="name" type="text" placeholder="Your name"
+               class="pl-3 h-9 rounded-md shadow-md border border-border"
+               @bind="Name" @bind:event="oninput"/>
+        <label for="contact-email">Email</label>
+        <input id="contact-email" name="email" type="email" placeholder="name@example.com"
+               class="pl-3 h-9 rounded-md shadow-md border border-border"
+               @bind="Email" @bind:event="oninput"/>
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" rows="5" placeholder="How can we help?"
+                  class="pl-3 py-2 rounded-md shadow-md border border-border resize-y"
+                  @bind="Message" @bind:event="oninput"></textarea>
+        <button type="submit"
+                class="mt-2 flex justify-center h-9 items-center gap-1 text-white rounded-md shadow-md border border-border bg-[#108a37] hover:bg-[#1aa65f] transition-colors duration-200">
+            Send message
+        </button>
+    </form>
+</div>
+
+@code {
+    private string Name { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string Message { get; set; } = "";
+
+    private void OnSubmit()
+    {
+        if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Message))
+        {
+            Toast.ShowError("Please fill in name, email, and message.");
+            return;
+        }
+
+        Toast.ShowSuccess("Thanks — we received your message.");
+        Name = "";
+        Email = "";
+        Message = "";
+    }
+
+}
