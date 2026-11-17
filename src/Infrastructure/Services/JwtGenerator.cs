@@ -12,6 +12,9 @@ namespace Infrastructure.Services;
 
 public class JwtGenerator : IJwtGenerator
 {
+    public const string CookieName = "authorization";
+    public static readonly TimeSpan TokenLifetime = TimeSpan.FromDays(7);
+
     private static readonly string ClaimsIssuer = "JWT__ISSUER".GetFromEnvRequired();
     private static readonly string ClaimsAudience = "JWT__AUDIENCE".GetFromEnvRequired();
     private static readonly string Key = "JWT__KEY".GetFromEnvRequired();
@@ -21,7 +24,7 @@ public class JwtGenerator : IJwtGenerator
         OnChallenge = ctx =>
         {
             ctx.Response.StatusCode = (int)HttpStatusCode.Found;
-            ctx.Response.Redirect("/login");
+            ctx.Response.Redirect("/Login");
             ctx.HandleResponse();
             return Task.CompletedTask;
         },
@@ -36,9 +39,9 @@ public class JwtGenerator : IJwtGenerator
 
         OnMessageReceived = ctx =>
         {
-            ctx.Request.Query.TryGetValue("authorization", out var query);
-            ctx.Request.Headers.TryGetValue("authorization", out var header);
-            ctx.Request.Cookies.TryGetValue("authorization", out var cookie);
+            ctx.Request.Query.TryGetValue(CookieName, out var query);
+            ctx.Request.Headers.TryGetValue(CookieName, out var header);
+            ctx.Request.Cookies.TryGetValue(CookieName, out var cookie);
             ctx.Token = (string?)query ?? (string?)header ?? cookie;
             return Task.CompletedTask;
         },
@@ -54,22 +57,23 @@ public class JwtGenerator : IJwtGenerator
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.Name,
     };
 
     private readonly JwtSecurityTokenHandler _handler = new();
     private readonly SymmetricSecurityKey _securityKey = new(Encoding.UTF8.GetBytes(Key));
     private SigningCredentials SigningCredentials => new(_securityKey, SecurityAlgorithms.HmacSha256);
 
-
     public string GenerateToken(User user)
     {
-        var exp = DateTime.UtcNow.AddMinutes(10);
+        var exp = DateTime.UtcNow.Add(TokenLifetime);
         var claims = new List<Claim>
         {
-            new("sub", user.Id.ToString()),
-            new("name", user.FullName),
-            new("email", user.Email),
-            new Claim("role", user.Role.ToString()),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.FullName),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, user.Role.ToString()),
         };
         var token = new JwtSecurityToken(
             ClaimsIssuer,

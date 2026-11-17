@@ -1,12 +1,16 @@
 using Application.Services;
 using Blazored.Toast;
+using Client.Auth;
 using Client.Components;
 using Domain.Common;
+using Domain.ValueObjects;
 using dotenv.net;
 using EntityFrameworkCore.DataProtection.Extensions;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,12 +37,23 @@ builder.Services
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Application.Application.Assembly));
 
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
 {
+    x.MapInboundClaims = false;
     x.TokenValidationParameters = JwtGenerator.TokenValidationParameters;
     x.Events = JwtGenerator.Events;
 });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Administrator", p => p.RequireRole(nameof(Role.Administrator)));
+    options.AddPolicy("Staff", p => p.RequireRole(
+        nameof(Role.Administrator),
+        nameof(Role.ProductManager),
+        nameof(Role.Support)));
+});
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 {
     cors.AllowAnyMethod();
@@ -48,6 +63,7 @@ builder.Services.AddCors(opt => opt.AddDefaultPolicy(cors =>
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddAuthorizationCore();
 
 
 var app = builder.Build();
@@ -69,8 +85,11 @@ app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+app.MapAuthEndpoints();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+await AdminBootstrap.EnsureAdministratorAsync(app.Services);
 
 app.Run();

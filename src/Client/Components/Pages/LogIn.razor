@@ -1,10 +1,10 @@
-﻿@page "/LogIn"
+﻿@page "/Login"
 @using Application.Auth
-@using Application.Services
-@using Domain.ValueObjects
+@using Client.Auth
+@using System.Text.Json
 @inject IToastService Toast
-@inject IMediator Mediator
-@inject IJwtGenerator JwtGenerator
+@inject NavigationManager Nav
+@inject IJSRuntime Js
 
 <div class="flex-1 w-full flex flex-col justify-center items-center px-4 py-10">
     <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center w-full max-w-lg">
@@ -27,7 +27,7 @@
             <label for="login-password">Password</label>
             <input type="password" class="pl-3 h-9 rounded-md shadow-md border border-border" id="login-password" name="password"
                    placeholder="..." @bind="Command.Password" @bind:event="oninput"/>
-            <button type="submit"
+            <button type="submit" disabled="@_busy"
                     class="mt-3 flex justify-center h-9 items-center gap-1 text-primary rounded-md shadow-md border border-border hover:bg-primary-foreground transition-colors duration-200">
                 <Blazicon Svg="GoogleMaterialFilledIcon.Login"></Blazicon>
                 Log In
@@ -46,35 +46,48 @@
 @code
 {
     private LoginCommand Command { get; set; } = new();
+    private bool _busy;
 
     private async Task OnValidSubmit()
     {
-        var validator = new LoginCommandValidator();
-        var validationResult = await validator.ValidateAsync(Command);
-        if (!validationResult.IsValid)
+        if (_busy) return;
+        _busy = true;
+
+        try
         {
-            foreach (var error in validationResult.Errors)
+            var validator = new LoginCommandValidator();
+            var validationResult = await validator.ValidateAsync(Command);
+            if (!validationResult.IsValid)
             {
-                Toast.ShowError(error.ErrorMessage);
+                Toast.ShowError(ToastErrors.FromValidation(validationResult));
+                return;
             }
 
-            return;
-        }
+            var result = await Js.InvokeAsync<AuthPostResult>("authPost", "/api/auth/login", new
+            {
+                email = Command.Email,
+                password = Command.Password,
+            });
 
-        var user = await Mediator.Send(Command);
+            if (result.Status == 401)
+            {
+                Toast.ShowError("Wrong email or password");
+                return;
+            }
 
-        if (user is not null)
-        {
-            var token = JwtGenerator.GenerateToken(user);
-            user.RefreshToken = RefreshToken.CreateNew();
-            Console.WriteLine(token);
-            // var token = JwtGenerator.GenerateToken(user.GetClaims(), TimeSpan.FromDays(1), DateTimeProvider);
-            // await Cookies.SetAsync("authorization", token);
-            // Nav.NavigateTo("/", true);
+            if (!result.Ok)
+            {
+                Toast.ShowError(ToastErrors.FromPayload(result.Payload, "Login failed"));
+                return;
+            }
+
+            Nav.NavigateTo("/", forceLoad: true);
         }
-        else
+        finally
         {
-            Toast.ShowError("Wrong email or password");
+            _busy = false;
         }
     }
+
+    private sealed record AuthPostResult(bool Ok, int Status, JsonElement? Payload);
 }

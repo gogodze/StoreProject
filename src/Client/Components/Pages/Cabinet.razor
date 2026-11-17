@@ -1,5 +1,22 @@
 ﻿@page "/Cabinet"
-<h3>Cabinet</h3>
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
-@code {
-}
+<div class="container mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold mb-2">Cabinet</h1>
+    <AuthorizeView>
+        <Authorized>
+            <p class="text-muted-foreground mb-6">Signed in as @context.User.Identity?.Name</p>
+            <p class="mb-2">Role: @string.Join(", ", context.User.FindAll(System.Security.Claims.ClaimTypes.Role).Select(c => c.Value))</p>
+        </Authorized>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Administrator">
+        <Authorized>
+            <a href="/Admin/RegisterUser"
+               class="inline-flex mt-4 px-3 py-2 border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                Register staff user
+            </a>
+        </Authorized>
+    </AuthorizeView>
+</div>

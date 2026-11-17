@@ -1,8 +1,10 @@
 ﻿@page "/Register"
 @using Application.Users.Commands
+@using Client.Auth
+@using System.Text.Json
 @inject IToastService Toast
 @inject NavigationManager Nav
-@inject IMediator Mediator
+@inject IJSRuntime Js
 
 <div class="flex-1 w-full flex flex-col justify-center items-center px-4 py-10">
     <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center w-full max-w-lg">
@@ -18,9 +20,12 @@
                 </a>
             </div>
             <h3 class="m-auto text-muted-foreground">Or continue with email</h3>
-            <label for="register-fullname">Full name</label>
-            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="register-fullname" name="fullName"
-                   placeholder="your name" @bind="Command.FullName" @bind:event="oninput"/>
+            <label for="register-name">Name</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="register-name" name="name"
+                   placeholder="your name" @bind="Command.Name" @bind:event="oninput"/>
+            <label for="register-surname">Surname</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="register-surname" name="surname"
+                   placeholder="your surname" @bind="Command.Surname" @bind:event="oninput"/>
             <label for="register-email">Email</label>
             <input type="email" class="pl-3 h-9 rounded-md shadow-md border border-border" id="register-email" name="email"
                    placeholder="name@example.com" @bind="Command.Email" @bind:event="oninput"/>
@@ -31,7 +36,7 @@
             <input type="password" class="pl-3 h-9 rounded-md shadow-md border border-border" id="register-confirm-password"
                    name="confirmPassword"
                    placeholder="..." @bind="Command.ConfirmPassword" @bind:event="oninput"/>
-            <button type="submit"
+            <button type="submit" disabled="@_busy"
                     class="mt-3 flex justify-center h-9 items-center gap-1 text-primary rounded-md shadow-md border border-border hover:bg-primary-foreground transition-colors duration-200">
                 <Blazicon Svg="GoogleMaterialFilledIcon.Login"></Blazicon>
                 Sign Up
@@ -43,26 +48,46 @@
 
 @code{
     private RegisterCustomerCommand Command { get; set; } = new();
+    private bool _busy;
 
     private async Task OnValidSubmit()
     {
-        var validator = new RegisterCustomerCommandValidator();
-        var validationResult = await validator.ValidateAsync(Command);
-        if (!validationResult.IsValid)
+        if (_busy) return;
+        _busy = true;
+
+        try
         {
-            foreach (var error in validationResult.Errors)
+            var validator = new RegisterCustomerCommandValidator();
+            var validationResult = await validator.ValidateAsync(Command);
+            if (!validationResult.IsValid)
             {
-                Toast.ShowError(error.ErrorMessage);
+                Toast.ShowError(ToastErrors.FromValidation(validationResult));
+                return;
             }
 
-            return;
+            var result = await Js.InvokeAsync<AuthPostResult>("authPost", "/api/auth/register", new
+            {
+                name = Command.Name,
+                surname = Command.Surname,
+                email = Command.Email,
+                password = Command.Password,
+                confirmPassword = Command.ConfirmPassword,
+            });
+
+            if (!result.Ok)
+            {
+                Toast.ShowError(ToastErrors.FromPayload(result.Payload, "Registration failed"));
+                return;
+            }
+
+            Toast.ShowSuccess("Account created");
+            Nav.NavigateTo("/", forceLoad: true);
         }
-
-
-        await Mediator.Send(Command);
-
-        Toast.ShowSuccess("User registered successfully");
-        Nav.NavigateTo("/Login");
+        finally
+        {
+            _busy = false;
+        }
     }
 
+    private sealed record AuthPostResult(bool Ok, int Status, JsonElement? Payload);
 }

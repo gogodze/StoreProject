@@ -255,3 +255,92 @@ h1:focus {
 .notice-fade-up {
   animation: notice-fade-up 0.4s ease-out both;
 }
+
+/* Blazored.Toast — match site notices (border, soft surface, brand accents) */
+.blazored-toast-container {
+  z-index: 95 !important;
+}
+
+.blazored-toast-container.position-bottomright {
+  bottom: 1rem !important;
+  right: 1rem !important;
+}
+
+.blazored-toast.store-toast {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+  border-top: 1px solid var(--border) !important;
+  border-left: 3px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important;
+  padding: 0.85rem 1rem !important;
+  width: min(22rem, calc(100vw - 2rem)) !important;
+  margin-bottom: 0.75rem !important;
+  animation: notice-fade-up 0.4s ease-out both !important;
+  align-items: flex-start;
+}
+
+.blazored-toast.store-toast .blazored-toast-message {
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4;
+  color: var(--foreground) !important;
+  white-space: pre-line;
+}
+
+.blazored-toast.store-toast .blazored-toast-close {
+  color: var(--muted-foreground) !important;
+  padding-left: 0.75rem !important;
+  line-height: 1;
+}
+
+.blazored-toast.store-toast .blazored-toast-close:hover {
+  color: var(--foreground) !important;
+}
+
+.blazored-toast.store-toast .blazored-toast-progressbar {
+  height: 3px !important;
+  border-bottom-left-radius: var(--radius) !important;
+  border-bottom-right-radius: var(--radius) !important;
+  background: transparent !important;
+}
+
+.blazored-toast.store-toast .blazored-toast-progressbar > span {
+  height: 3px !important;
+  border-bottom-left-radius: var(--radius) !important;
+  filter: none !important;
+  background-image: none !important;
+}
+
+.blazored-toast.store-toast-success {
+  border-left-color: #108a37 !important;
+}
+
+.blazored-toast.store-toast-success .blazored-toast-progressbar > span {
+  background-color: #108a37 !important;
+}
+
+.blazored-toast.store-toast-error {
+  border-left-color: var(--destructive) !important;
+}
+
+.blazored-toast.store-toast-error .blazored-toast-progressbar > span {
+  background-color: var(--destructive) !important;
+}
+
+.blazored-toast.store-toast-info {
+  border-left-color: var(--ring) !important;
+}
+
+.blazored-toast.store-toast-info .blazored-toast-progressbar > span {
+  background-color: var(--ring) !important;
+}
+
+.blazored-toast.store-toast-warning {
+  border-left-color: var(--chart-5) !important;
+}
+
+.blazored-toast.store-toast-warning .blazored-toast-progressbar > span {
+  background-color: var(--chart-5) !important;
+}

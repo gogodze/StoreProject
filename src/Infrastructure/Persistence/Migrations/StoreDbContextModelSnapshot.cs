@@ -15,7 +15,7 @@ namespace Infrastructure.Persistence.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.15");
 
             modelBuilder.Entity("Domain.Aggregates.User", b =>
                 {
@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(40)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT")
                         .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true)
                         .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsQueryable", true)
@@ -36,13 +36,13 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(15)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT")
                         .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT")
                         .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
@@ -161,24 +161,24 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.Property<string>("City")
                                 .IsRequired()
-                                .HasMaxLength(15)
+                                .HasMaxLength(50)
                                 .HasColumnType("TEXT")
                                 .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                             b1.Property<string>("Country")
                                 .IsRequired()
-                                .HasMaxLength(10)
+                                .HasMaxLength(56)
                                 .HasColumnType("TEXT")
                                 .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                             b1.Property<string>("State")
-                                .IsRequired()
-                                .HasMaxLength(10)
+                                .HasMaxLength(50)
                                 .HasColumnType("TEXT")
                                 .HasAnnotation("Klean.EntityFrameworkCore.DataProtection.IsEncrypted", true);
 
                             b1.Property<string>("ZipCode")
                                 .IsRequired()
+                                .HasMaxLength(20)
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("UserId");

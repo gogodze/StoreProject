@@ -1,4 +1,8 @@
-﻿<div class="sticky top-0 z-50 bg-background/10 backdrop-blur-md text-foreground border-b border-border">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Nav
+@inject IJSRuntime Js
+
+<div class="sticky top-0 z-50 bg-background/10 backdrop-blur-md text-foreground border-b border-border">
     <div class="container mx-auto flex items-center justify-between p-3">
         <div class="flex items-center justify-between w-full gap-4 lg:w-auto">
             <button class="lg:hidden p-2" onclick="window.toggleNav()">
@@ -40,18 +44,56 @@
                           class="absolute dark:rotate-0 rotate-90 dark:opacity-100 opacity-0"/>
             </button>
 
-            <a href="/Login"
-               class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
-                Login
-            </a>
-            <a href="/Register"
-               class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
-                Sign Up
-            </a>
+            <AuthorizeView>
+                <Authorized>
+                    <AuthorizeView Roles="Administrator" Context="adminContext">
+                        <Authorized>
+                            <a href="/Admin/RegisterUser"
+                               class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                                Admin
+                            </a>
+                        </Authorized>
+                    </AuthorizeView>
+                    <a href="/Cabinet"
+                       class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                        Cabinet
+                    </a>
+                    <button type="button" disabled="@_busy" @onclick="LogoutAsync"
+                            class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                        Log out
+                    </button>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/Login"
+                       class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-primary hover:bg-primary-foreground transition-colors">
+                        Login
+                    </a>
+                    <a href="/Register"
+                       class="shadow-md hidden lg:block px-3 py-2 font-bold border border-border rounded-md text-secondary bg-[#108a37] hover:bg-[#1aa65f] transition-colors">
+                        Sign Up
+                    </a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
     </div>
 </div>
 
 @code
 {
+    private bool _busy;
+
+    private async Task LogoutAsync()
+    {
+        if (_busy) return;
+        _busy = true;
+        try
+        {
+            await Js.InvokeAsync<object>("authPost", "/api/auth/logout", new { });
+            Nav.NavigateTo("/", forceLoad: true);
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
 }

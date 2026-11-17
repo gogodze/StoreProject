@@ -25,3 +25,28 @@ window.dismissDemoNotice = () => localStorage.setItem("demoNoticeDismissed", "tr
 
 window.isCookieNoticeAccepted = () => localStorage.getItem("cookieNoticeAccepted") === "true";
 window.acceptCookieNotice = () => localStorage.setItem("cookieNoticeAccepted", "true");
+
+window.authPost = async (url, body) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify(body),
+  });
+
+  let payload = null;
+  const text = await response.text();
+  if (text) {
+    try {
+      payload = JSON.parse(text);
+    } catch {
+      payload = { errors: [text] };
+    }
+  }
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    payload,
+  };
+};

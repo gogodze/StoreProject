@@ -1,0 +1,97 @@
+@page "/Admin/RegisterUser"
+@using Application.Users.Commands
+@using Client.Auth
+@using Domain.ValueObjects
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = nameof(Role.Administrator))]
+@inject IToastService Toast
+@inject IMediator Mediator
+
+<div class="flex-1 w-full flex flex-col justify-center items-center px-4 py-10">
+    <div class="border rounded-md border-border shadow-md p-12 flex flex-col justify-center gap-2 items-center w-full max-w-lg">
+        <h1 class="text-bold text-4xl">Register staff</h1>
+        <h2 class="text-muted-foreground">Only administrators can create non-customer accounts</h2>
+
+        <form class="flex flex-col space-y-2 w-96 mt-4" @onsubmit="OnValidSubmit" @onsubmit:preventDefault>
+            <label for="staff-name">Name</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-name"
+                   @bind="Command.Name" @bind:event="oninput"/>
+            <label for="staff-surname">Surname</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-surname"
+                   @bind="Command.Surname" @bind:event="oninput"/>
+            <label for="staff-email">Email</label>
+            <input type="email" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-email"
+                   @bind="Command.Email" @bind:event="oninput"/>
+            <label for="staff-password">Password</label>
+            <input type="password" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-password"
+                   @bind="Command.Password" @bind:event="oninput"/>
+            <label for="staff-confirm">Confirm password</label>
+            <input type="password" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-confirm"
+                   @bind="Command.ConfirmPassword" @bind:event="oninput"/>
+            <label for="staff-role">Role</label>
+            <select id="staff-role" class="pl-3 h-9 rounded-md shadow-md border border-border"
+                    @bind="Command.Role">
+                <option value="@Role.ProductManager">Product Manager</option>
+                <option value="@Role.Support">Support</option>
+                <option value="@Role.Administrator">Administrator</option>
+            </select>
+            <label for="staff-address1">Address line 1 (optional)</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-address1"
+                   @bind="Command.AddressLine1" @bind:event="oninput"/>
+            <label for="staff-city">City (optional)</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-city"
+                   @bind="Command.City" @bind:event="oninput"/>
+            <label for="staff-country">Country (optional)</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-country"
+                   @bind="Command.Country" @bind:event="oninput"/>
+            <label for="staff-zip">Zip code (optional)</label>
+            <input type="text" class="pl-3 h-9 rounded-md shadow-md border border-border" id="staff-zip"
+                   @bind="Command.ZipCode" @bind:event="oninput"/>
+            <button type="submit" disabled="@_busy"
+                    class="mt-3 flex justify-center h-9 items-center gap-1 text-primary rounded-md shadow-md border border-border hover:bg-primary-foreground transition-colors duration-200">
+                Create account
+            </button>
+        </form>
+    </div>
+</div>
+
+@code {
+    private RegisterStaffCommand Command { get; set; } = new()
+    {
+        Role = Role.ProductManager,
+    };
+
+    private bool _busy;
+
+    private async Task OnValidSubmit()
+    {
+        if (_busy) return;
+        _busy = true;
+
+        try
+        {
+            var validator = new RegisterStaffCommandValidator();
+            var validationResult = await validator.ValidateAsync(Command);
+            if (!validationResult.IsValid)
+            {
+                Toast.ShowError(ToastErrors.FromValidation(validationResult));
+                return;
+            }
+
+            try
+            {
+                await Mediator.Send(Command);
+                Toast.ShowSuccess("Staff user registered");
+                Command = new RegisterStaffCommand { Role = Role.ProductManager };
+            }
+            catch (InvalidOperationException ex)
+            {
+                Toast.ShowError(ex.Message);
+            }
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}

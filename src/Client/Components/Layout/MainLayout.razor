@@ -3,11 +3,13 @@
 @implements IDisposable
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
-                Timeout="10"
-                IconType="IconType.FontAwesome"
-                SuccessClass="success-toast-override"
-                SuccessIcon="fa fa-thumbs-up"
-                ErrorIcon="fa fa-bug"/>
+                Timeout="6"
+                ShowProgressBar="true"
+                IconType="IconType.None"
+                SuccessClass="store-toast store-toast-success"
+                ErrorClass="store-toast store-toast-error"
+                InfoClass="store-toast store-toast-info"
+                WarningClass="store-toast store-toast-warning"/>
 
 <div class="min-h-screen flex flex-col">
     <TopBar/>
@@ -54,7 +56,6 @@
     {
         var path = Nav.ToBaseRelativePath(Nav.Uri).Split('?', '#')[0];
         HideFooter = path.Equals("Login", StringComparison.OrdinalIgnoreCase)
-                     || path.Equals("LogIn", StringComparison.OrdinalIgnoreCase)
                      || path.Equals("Register", StringComparison.OrdinalIgnoreCase);
     }
 
