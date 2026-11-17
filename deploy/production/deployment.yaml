@@ -36,7 +36,7 @@ spec:
 
       containers:
         - name: storeproject
-          image: gogodze/store-staging@sha256:54f5284ae1ce3673b18d94832487a894f8bdec82b4b63f11f14f44b2221b9fcd
+          image: gogodze/store-staging@sha256:2b2af4f64fd244634e04298aad18b84ee04b175d716002f2c748e2065a2118ab
           imagePullPolicy: IfNotPresent
 
           ports:
